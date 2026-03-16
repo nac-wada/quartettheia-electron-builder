@@ -1,0 +1,140 @@
+.App {
+  text-align: center;
+}
+
+.App-logo {
+  height: 40vmin;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .App-logo {
+    animation: App-logo-spin infinite 20s linear;
+  }
+}
+
+.App-header {
+  background-color: #F5F5F5;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.App-link {
+  color: #61dafb;
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.Record-icon {
+  text-align: center;
+  animation: flash 1.5s linear infinite;
+}
+
+@keyframes flash {
+  0%,
+  100% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0.3;
+  }
+}
+
+.Record-content {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.Video-list {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.Video {
+  flex-direction: column;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+}
+
+.Videolist-Controlbar {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.scene-layout {
+  position: relative;
+}
+
+.scene-layout p {
+  position: absolute;
+  color: #ffffffff;
+  transform: translate(0%,-45%);
+  top: 0;
+  right: 0;
+}
+
+.scene-layout h1 {
+  position: absolute;
+  color: #ffffff;
+  /* -webkit-text-stroke: 0.5px #000000; */
+  font-size: large;
+  transform: translate(5%,-50%);
+  top: 0;
+}
+
+.playview-scene-layout {
+  position: relative;
+}
+
+.playview-scene-layout h1 {
+  position: absolute;
+  background-color: #ffffff;
+  opacity: 0.8;
+  /* -webkit-text-stroke: 0.5px #000000; */
+  transform: translate(0%,-55%);
+  font-size: medium;
+  top: 0;
+}
+
+.playview-scene-indi-layout {
+  position: relative;
+}
+
+.playview-scene-indi-layout h1 {
+  position: absolute;
+  background-color: #ffffff;
+  opacity: 0.8;
+  /* -webkit-text-stroke: 0.5px #000000; */
+  transform: translate(0%,-40%);
+  font-size: large;
+  top: 0;
+}
+
+/* 文字数制限 */
+.txt-limit {
+  width: 100%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}

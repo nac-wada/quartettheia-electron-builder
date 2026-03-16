@@ -1,0 +1,2356 @@
+syntax = "proto3";
+
+package solo.v1;
+
+option go_package = "github.com/mkrless/solo/gen/go/solo/v1;solov1";
+
+import "google/protobuf/duration.proto";
+import "google/protobuf/timestamp.proto";
+
+service SoloService {
+  // サービスの疎通テストを実行する
+  rpc SayHello (SayHelloRequest) returns (SayHelloResponse) {}
+  // ビルド情報を取得する
+  rpc GetBuildInfo (GetBuildInfoRequest) returns (GetBuildInfoResponse) {}
+
+  // すべてのサービスのビルド情報を取得する
+  rpc GetBuildInfoAll (GetBuildInfoAllRequest) returns (GetBuildInfoAllResponse) {}
+
+  // ライブストリームにWebRTC接続する
+  rpc ConnectToLiveStream (ConnectToLiveStreamRequest) returns (ConnectToLiveStreamResponse) {}
+
+  // MP4ファイルがトリミングに対応しているかどうか確認する
+  rpc CheckTrimMP4FileSupported (CheckTrimMP4FileSupportedRequest) returns (CheckTrimMP4FileSupportedResponse) {}
+  // MP4ファイルを指定した時間でトリミングする
+  rpc TrimMP4File (TrimMP4FileRequest) returns (TrimMP4FileResponse) {}
+
+  // カメラのニックネーム設定
+  rpc GetCameraNickname (GetCameraNicknameRequest) returns (GetCameraNicknameResponse) {}
+  rpc SetCameraNickname (SetCameraNicknameRequest) returns (SetCameraNicknameResponse) {}
+  // カメラのプライオリティ設定
+  rpc GetCameraPriority (GetCameraPriorityRequest) returns (GetCameraPriorityResponse) {}
+  rpc SetCameraPriority (SetCameraPriorityRequest) returns (SetCameraPriorityResponse) {}
+
+
+  // ##########################
+  // Camera
+  // ##########################
+
+  // white balance auto
+  rpc GetCameraWhiteBalanceAuto (GetCameraWhiteBalanceAutoRequest) returns (GetCameraWhiteBalanceAutoResponse) {}
+  rpc SetCameraWhiteBalanceAuto (SetCameraWhiteBalanceAutoRequest) returns (SetCameraWhiteBalanceAutoResponse) {}
+
+  // white balance red
+  rpc GetCameraWhiteBalanceRed (GetCameraWhiteBalanceRedRequest) returns (GetCameraWhiteBalanceRedResponse) {}
+  rpc SetCameraWhiteBalanceRed (SetCameraWhiteBalanceRedRequest) returns (SetCameraWhiteBalanceRedResponse) {}
+
+  // white balance blue
+  rpc GetCameraWhiteBalanceBlue (GetCameraWhiteBalanceBlueRequest) returns (GetCameraWhiteBalanceBlueResponse) {}
+  rpc SetCameraWhiteBalanceBlue (SetCameraWhiteBalanceBlueRequest) returns (SetCameraWhiteBalanceBlueResponse) {}
+
+  // gamma
+  rpc GetCameraGamma (GetCameraGammaRequest) returns (GetCameraGammaResponse) {}
+  rpc SetCameraGamma (SetCameraGammaRequest) returns (SetCameraGammaResponse) {}
+  
+  // exposure
+  rpc GetCameraExposure (GetCameraExposureRequest) returns (GetCameraExposureResponse) {}
+  rpc SetCameraExposure (SetCameraExposureRequest) returns (SetCameraExposureResponse) {}
+
+  // exposure auto
+  rpc GetCameraExposureAuto (GetCameraExposureAutoRequest) returns (GetCameraExposureAutoResponse) {}
+  rpc SetCameraExposureAuto (SetCameraExposureAutoRequest) returns (SetCameraExposureAutoResponse) {}
+
+  // exposure absolute
+  rpc GetCameraExposureAbsolute (GetCameraExposureAbsoluteRequest) returns (GetCameraExposureAbsoluteResponse) {}
+  rpc SetCameraExposureAbsolute (SetCameraExposureAbsoluteRequest) returns (SetCameraExposureAbsoluteResponse) {}
+
+  // exposure auto min
+  rpc GetCameraExposureAutoMin (GetCameraExposureAutoMinRequest) returns (GetCameraExposureAutoMinResponse) {}
+  rpc SetCameraExposureAutoMin (SetCameraExposureAutoMinRequest) returns (SetCameraExposureAutoMinResponse) {}
+
+  // exposure auto max
+  rpc GetCameraExposureAutoMax (GetCameraExposureAutoMaxRequest) returns (GetCameraExposureAutoMaxResponse) {}
+  rpc SetCameraExposureAutoMax (SetCameraExposureAutoMaxRequest) returns (SetCameraExposureAutoMaxResponse) {}
+
+  // gain
+  rpc GetCameraGain (GetCameraGainRequest) returns (GetCameraGainResponse) {}
+  rpc SetCameraGain (SetCameraGainRequest) returns (SetCameraGainResponse) {}
+
+  // gain auto
+  rpc GetCameraGainAuto (GetCameraGainAutoRequest) returns (GetCameraGainAutoResponse) {}
+  rpc SetCameraGainAuto (SetCameraGainAutoRequest) returns (SetCameraGainAutoResponse) {}
+
+  // gain auto min
+  rpc GetCameraGainAutoMin (GetCameraGainAutoMinRequest) returns (GetCameraGainAutoMinResponse) {}
+  rpc SetCameraGainAutoMin (SetCameraGainAutoMinRequest) returns (SetCameraGainAutoMinResponse) {}
+
+  // gain auto max
+  rpc GetCameraGainAutoMax (GetCameraGainAutoMaxRequest) returns (GetCameraGainAutoMaxResponse) {}
+  rpc SetCameraGainAutoMax (SetCameraGainAutoMaxRequest) returns (SetCameraGainAutoMaxResponse) {}
+
+  // frame size
+  rpc GetCameraActualFrameSize (GetCameraActualFrameSizeRequest) returns (GetCameraActualFrameSizeResponse) {}
+
+  // frame rate
+  rpc GetCameraActualFrameRate (GetCameraActualFrameRateRequest) returns (GetCameraActualFrameRateResponse) {}
+
+  // カメラ画像の反転
+  rpc GetCameraImageFlipping (GetCameraImageFlippingRequest) returns (GetCameraImageFlippingResponse) {}
+  rpc SetCameraImageFlipping (SetCameraImageFlippingRequest) returns (SetCameraImageFlippingResponse) {}
+
+
+  // ##########################
+  // Clock
+  // ##########################
+
+  // 現在時刻を取得する
+  rpc GetCurrentTime (GetCurrentTimeRequest) returns (GetCurrentTimeResponse) {}
+  // システム時刻を取得する
+  rpc GetSystemTime (GetSystemTimeRequest) returns (GetSystemTimeResponse) {}
+  // システム時刻を設定する
+  rpc SetSystemTime (SetSystemTimeRequest) returns (SetSystemTimeResponse) {} 
+
+
+  // ##########################
+  // Power Management
+  // ##########################
+
+  // デバイスをシャットダウンする
+  rpc ShutdownDevice (ShutdownDeviceRequest) returns (ShutdownDeviceResponse) {}
+  // デバイスを再起動する
+  rpc RestartDevice (RestartDeviceRequest) returns (RestartDeviceResponse) {}
+  // 給電時にカメラの電源をONにするか、設定値を取得する
+  rpc GetDeviceAutoBootModeOnPowerSupply (GetDeviceAutoBootModeOnPowerSupplyRequest) returns (GetDeviceAutoBootModeOnPowerSupplyResponse) {}
+  // 給電時にカメラの電源をONにするかどうか設定する
+  rpc SetDeviceAutoBootModeOnPowerSupply (SetDeviceAutoBootModeOnPowerSupplyRequest) returns (SetDeviceAutoBootModeOnPowerSupplyResponse) {}
+  // デバイスの起動時刻を取得する
+  rpc GetDeviceBootTime (GetDeviceBootTimeRequest) returns (GetDeviceBootTimeResponse) {}
+  // デバイスのサーマルシャットダウンの有効化状態を取得する
+  rpc GetDeviceThermalShutdownEnabled (GetDeviceThermalShutdownEnabledRequest) returns (GetDeviceThermalShutdownEnabledResponse) {}
+  // デバイスのサーマルシャットダウンの有効/無効を設定する
+  rpc SetDeviceThermalShutdownEnabled (SetDeviceThermalShutdownEnabledRequest) returns (SetDeviceThermalShutdownEnabledResponse) {}
+  // Jetsonの電源モード(nvpmodel)を取得する
+  rpc GetMainboardPowerMode (GetMainboardPowerModeRequest) returns (GetMainboardPowerModeResponse) {}
+  // Jetsonの電源モード(nvpmodel)を設定する
+  rpc SetMainboardPowerMode (SetMainboardPowerModeRequest) returns (SetMainboardPowerModeResponse) {}
+  // Jetsonのファンスピードを取得する
+  rpc GetDeviceFanSpeedControl (GetDeviceFanSpeedControlRequest) returns (GetDeviceFanSpeedControlResponse) {}
+  // Jetsonのファンスピードを設定する
+  rpc SetDeviceFanSpeedControl (SetDeviceFanSpeedControlRequest) returns (SetDeviceFanSpeedControlResponse) {}
+
+  
+  // ##########################
+  // Record / Trimming
+  // ##########################
+
+  // 録画・トリミング
+  rpc StartRecorder (StartRecorderRequest) returns (StartRecorderResponse) {}
+  rpc StopRecorder (StopRecorderRequest) returns (StopRecorderResponse) {}
+  // 指定した時刻から、指定した時間だけ録画する
+  rpc StartRecorderWithDuration (StartRecorderWithDurationRequest) returns (StartRecorderWithDurationResponse) {}
+  rpc TrimRecorder (TrimRecorderRequest) returns (TrimRecorderResponse) {}
+  rpc ShutdownRecorderAll (ShutdownRecorderAllRequest) returns (ShutdownRecorderAllResponse) {}
+
+  // 録画状態管理
+  rpc GetRecordingKeys (GetRecordingKeysRequest) returns (GetRecordingKeysResponse) {}
+  rpc CheckRecordingKeyExists (CheckRecordingKeyExistsRequest) returns (CheckRecordingKeyExistsResponse) {}
+  rpc GetRecordingFileTimeLength (GetRecordingFileTimeLengthRequest) returns (GetRecordingFileTimeLengthResponse) {}
+  rpc GetRecordingStartTime (GetRecordingStartTimeRequest) returns (GetRecordingStartTimeResponse) {}
+  rpc GetRecordingKeyStatus (GetRecordingKeyStatusRequest) returns (GetRecordingKeyStatusResponse) {}
+
+
+  // ##########################
+  // Recorded MP4
+  // ##########################
+
+  // 録画ファイル数を取得
+  rpc GetRecordedFileCount (GetRecordedFileCountRequest) returns (GetRecordedFileCountResponse) {}
+  // 録画ファイルリストの取得
+  rpc GetRecordedFileList (GetRecordedFileListRequest) returns (GetRecordedFileListResponse) {}
+  // メタデータ付き録画ファイルリストの取得
+  rpc GetRecordedFileListWithMetadatas (GetRecordedFileListWithMetadatasRequest) returns (GetRecordedFileListWithMetadatasResponse) {}
+  // 録画ファイルリストを更新
+  rpc UpdateRecordedFileList (UpdateRecordedFileListRequest) returns (UpdateRecordedFileListResponse) {}
+  // 録画ファイルの削除
+  rpc RemoveRecordedFile (RemoveRecordedFileRequest) returns (RemoveRecordedFileResponse) {}
+  // 録画ファイルの削除
+  rpc RemoveRecordedFiles (RemoveRecordedFilesRequest) returns (RemoveRecordedFilesResponse) {}
+  // すべての録画ファイルの削除
+  rpc RemoveRecordedFileAll (RemoveRecordedFileAllRequest) returns (RemoveRecordedFileAllResponse) {}
+  // 録画ファイルのメタデータを取得
+  rpc GetRecordedFileMetadata (GetRecordedFileMetadataRequest) returns (GetRecordedFileMetadataResponse) {}
+  // 録画ファイルのメタデータを設定
+  rpc SetRecordedFileMetadata (SetRecordedFileMetadataRequest) returns (SetRecordedFileMetadataResponse) {}
+  // 録画ファイルが存在するかどうか
+  rpc CheckRecordedFileExists (CheckRecordedFileExistsRequest) returns (CheckRecordedFileExistsResponse) {}
+  // 録画ファイルにドロップフレームが含まれるか確認する
+  rpc GetRecordedFileDroppedFramesInfo (GetRecordedFileDroppedFramesInfoRequest) returns (GetRecordedFileDroppedFramesInfoResponse) {}
+  // 録画ファイルに同期が不安定なフレームが含まれるか確認する
+  rpc GetRecordedFileUnstableSyncFramesInfo (GetRecordedFileUnstableSyncFramesInfoRequest) returns (GetRecordedFileUnstableSyncFramesInfoResponse) {}
+  // 録画ストレージの使用量を取得
+  rpc GetRecordingStorageUsage (GetRecordingStorageUsageRequest) returns (GetRecordingStorageUsageResponse) {}
+  // 録画ファイルの自動削除の設定値を取得する
+  rpc GetRecordingAutoRemoveEnabled (GetRecordingAutoRemoveEnabledRequest) returns (GetRecordingAutoRemoveEnabledResponse) {}
+  // 録画ファイルの自動削除の有効・無効を設定する
+  rpc SetRecordingAutoRemoveEnabled (SetRecordingAutoRemoveEnabledRequest) returns (SetRecordingAutoRemoveEnabledResponse) {}
+
+
+  // ##########################
+  // Calibration
+  // ##########################
+
+  // キャリブレーション治具を撮影する
+  rpc TakeCalibrationSnapshot (TakeCalibrationSnapshotRequest) returns (TakeCalibrationSnapshotResponse) {}
+  // キャリブレーション撮影を最初の状態に戻す
+  rpc ResetCalibrationSnapshots (ResetCalibrationSnapshotsRequest) returns (ResetCalibrationSnapshotsResponse) {}
+  // キャリブレーション計算を実行する
+  rpc RunCalibration (RunCalibrationRequest) returns (RunCalibrationResponse) {}
+  // キャリブレーション画像の枚数を取得する
+  rpc GetCalibrationSnapshotsCount (GetCalibrationSnapshotsCountRequest) returns (GetCalibrationSnapshotsCountResponse) {}
+  // すべての領域のキャリブレーション画像の枚数を取得する
+  rpc GetCalibrationSnapshotsCountAll (GetCalibrationSnapshotsCountAllRequest) returns (GetCalibrationSnapshotsCountAllResponse) {}
+  // カメラの位置がボードに対してどちらの側にあるか取得する
+  rpc GetCalibrationCameraSideAgainstBoard (GetCalibrationCameraSideAgainstBoardRequest) returns (GetCalibrationCameraSideAgainstBoardResponse) {}
+  // カメラの位置がボードに対してどちらの側にあるか設定する
+  rpc SetCalibrationCameraSideAgainstBoard (SetCalibrationCameraSideAgainstBoardRequest) returns (SetCalibrationCameraSideAgainstBoardResponse) {}
+  // キャリブレーション結果を取得する
+  rpc GetCalibrationResult (GetCalibrationResultRequest) returns (GetCalibrationResultResponse) {}
+  // キャリブレーション結果が存在するか確認する
+  rpc CheckCalibrationResultExists (CheckCalibrationResultExistsRequest) returns (CheckCalibrationResultExistsResponse) {}
+  // キャリブレーションエンジンの状態を取得する
+  rpc GetCalibrationEngineStatus (GetCalibrationEngineStatusRequest) returns (GetCalibrationEngineStatusResponse) {}
+  // キャリブレーションエンジンの状態を設定する（外部クライアントからは使用しないこと）
+  rpc SetCalibrationEngineStatus (SetCalibrationEngineStatusRequest) returns (SetCalibrationEngineStatusResponse) {}
+  // キャリブレーション結果を設定する
+  rpc SetCalibrationResult (SetCalibrationResultRequest) returns (SetCalibrationResultResponse) {}
+  // キャリブレーション結果を削除する
+  rpc RemoveCalibrationResult (RemoveCalibrationResultRequest) returns (RemoveCalibrationResultResponse) {}
+  // キャリブレーション画像を取得する
+  rpc GetCalibrationImageData (GetCalibrationImageDataRequest) returns (GetCalibrationImageDataResponse) {}
+  // キャリブレーションデータの取得日時を取得する
+  rpc GetCalibrationResultUpdateTimestamp (GetCalibrationResultUpdateTimestampRequest) returns (GetCalibrationResultUpdateTimestampResponse) {}
+
+
+  // ##########################
+  // キャリブレーションマーカー
+  // ##########################
+
+  // キャリブレータ検出モードの取得
+  rpc GetCalibratorDetectionMode (GetCalibratorDetectionModeRequest) returns (GetCalibratorDetectionModeResponse) {}
+  // キャリブレータ検出モードの設定
+  rpc SetCalibratorDetectionMode (SetCalibratorDetectionModeRequest) returns (SetCalibratorDetectionModeResponse) {}
+  // 最後に検出されたLフレームマーカー位置を返す
+  rpc GetLatestLFrameMarkerLocation (GetLatestLFrameMarkerLocationRequest) returns (GetLatestLFrameMarkerLocationResponse) {}
+  // 最後に検出されたTワンドマーカー位置を返す
+  rpc GetLatestTWandMarkerLocation (GetLatestTWandMarkerLocationRequest) returns (GetLatestTWandMarkerLocationResponse) {}
+  // Lフレームマーカー位置をストリームで返す
+  rpc GetLFrameMarkerLocationStream (GetLFrameMarkerLocationStreamRequest) returns (stream GetLFrameMarkerLocationStreamResponse) {}
+  // Tワンドマーカー位置をストリームで返す
+  rpc GetTWandMarkerLocationStream (GetTWandMarkerLocationStreamRequest) returns (stream GetTWandMarkerLocationStreamResponse) {}
+  // 計算に必要なマーカーデータをセットする
+  rpc SetCalibrationLFrameMarkerSet (SetCalibrationLFrameMarkerSetRequest) returns (SetCalibrationLFrameMarkerSetResponse) {}
+  // 計算に必要なマーカーデータをセットする
+  rpc SetCalibrationTWandMarkerSet (SetCalibrationTWandMarkerSetRequest) returns (SetCalibrationTWandMarkerSetResponse) {}
+ 
+
+  // ##########################
+  // Device
+  // ##########################
+
+  // デバイス探索
+  rpc GetDevices (GetDevicesRequest) returns (GetDevicesResponse) {}
+  rpc GetDeviceActiveNetworkInterfaces (GetDeviceActiveNetworkInterfacesRequest) returns (GetDeviceActiveNetworkInterfacesResponse) {}
+  rpc GetDeviceSerialNumber (GetDeviceSerialNumberRequest) returns (GetDeviceSerialNumberResponse) {}
+  rpc GetDeviceHostname (GetDeviceHostnameRequest) returns (GetDeviceHostnameResponse) {}
+  rpc GetDeviceCPUUsage (GetDeviceCPUUsageRequest) returns (GetDeviceCPUUsageResponse) {}
+  rpc GetDeviceMemoryUsage (GetDeviceMemoryUsageRequest) returns (GetDeviceMemoryUsageResponse) {}
+  rpc GetDeviceDiskUsage (GetDeviceDiskUsageRequest) returns (GetDeviceDiskUsageResponse) {}
+  rpc GetDeviceResourceUsage (GetDeviceResourceUsageRequest) returns (GetDeviceResourceUsageResponse) {}
+  // デバイスの各種温度を取得する
+  rpc GetDeviceTemperature (GetDeviceTemperatureRequest) returns (GetDeviceTemperatureResponse) {}
+  // SSD S.M.A.R.T. values
+  rpc GetDeviceStorageStatus (GetDeviceStorageStatusRequest) returns (GetDeviceStorageStatusResponse) {}
+  // デバイスの同期状態
+  rpc GetDeviceSyncStatus (GetDeviceSyncStatusRequest) returns (GetDeviceSyncStatusResponse) {}
+  // カメラの同期モード
+  rpc GetDeviceSyncMode (GetDeviceSyncModeRequest) returns (GetDeviceSyncModeResponse) {}
+  // 同期IDを取得する
+  rpc GetDeviceSyncId (GetDeviceSyncIdRequest) returns (GetDeviceSyncIdResponse) {}
+  // バージョン情報
+  rpc GetDeviceVersion (GetDeviceVersionRequest) returns (GetDeviceVersionResponse) {}
+  // UNISONet Unitを追加
+  rpc AddDeviceUNISONetUnit (AddDeviceUNISONetUnitRequest) returns (AddDeviceUNISONetUnitResponse) {}
+  // UNISONet Unitを削除
+  rpc RemoveDeviceUNISONetUnit (RemoveDeviceUNISONetUnitRequest) returns (RemoveDeviceUNISONetUnitResponse) {}
+  // カメラステータスLEDのカスタム設定
+  rpc SetDeviceCameraStatusLEDCustom (SetDeviceCameraStatusLEDCustomRequest) returns (SetDeviceCameraStatusLEDCustomResponse) {}
+
+  
+  // ##########################
+  // Wi-Fi
+  // ##########################
+
+  // WiFi機能が利用可能かどうか取得する
+  rpc GetWiFiFunctionsAvailable (GetWiFiFunctionsAvailableRequest) returns (GetWiFiFunctionsAvailableResponse) {}
+  // Wi-Fiアクセスポイントの取得
+  rpc GetWiFiNetworks (GetWiFiNetworksRequest) returns (GetWiFiNetworksResponse) {}
+  // Wi-Fiネットワークを再スキャンする
+  rpc RescanWiFiNetworks (RescanWiFiNetworksRequest) returns (RescanWiFiNetworksResponse) {}
+  // 新しいWi-Fiアクセスポイントに接続する
+  rpc ConnectToNewWiFiNetwork (ConnectToNewWiFiNetworkRequest) returns (ConnectToNewWiFiNetworkResponse) {} 
+  // Wi-Fiアクセスポイントに接続する
+  rpc ConnectToWiFiNetwork (ConnectToWiFiNetworkRequest) returns (ConnectToWiFiNetworkResponse) {} 
+  // Wi-Fiアクセスポイントから切断する
+  rpc DisconnectFromWiFiNetwork (DisconnectFromWiFiNetworkRequest) returns (DisconnectFromWiFiNetworkResponse) {} 
+  // Wi-Fiアクセスポイントの設定を削除する
+  rpc RemoveWiFiNetwork (RemoveWiFiNetworkRequest) returns (RemoveWiFiNetworkResponse) {}
+  // Wi-Fiが有効かどうか確認する
+  rpc CheckWiFiEnabled (CheckWiFiEnabledRequest) returns (CheckWiFiEnabledResponse) {}
+  // Wi-Fiを有効化する
+  rpc EnableWiFi (EnableWiFiRequest) returns (EnableWiFiResponse) {}
+  // Wi-Fiを無効化する
+  rpc DisableWiFi (DisableWiFiRequest) returns (DisableWiFiResponse) {}
+  // Wi-Fiアクセスポイントに接続されていることを確認する
+  rpc CheckWiFiNetworkConnection (CheckWiFiNetworkConnectionRequest) returns (CheckWiFiNetworkConnectionResponse) {}
+  // インターネット接続確認
+  rpc CheckInternetConnection (CheckInternetConnectionRequest) returns (CheckInternetConnectionResponse) {}
+  // Wi-Fiパスワードの暗号化用の公開鍵を取得する
+  rpc GetWiFiAPIPublicKey (GetWiFiAPIPublicKeyRequest) returns (GetWiFiAPIPublicKeyResponse) {}
+
+
+  // ##########################
+  // Messaging
+  // ##########################
+
+  // イベントをクライアントにブロードキャスト送信する
+  rpc BroadcastEvent (BroadcastEventRequest) returns (BroadcastEventResponse) {}
+  // イベントを受信するためのストリームを取得する
+  rpc SubscribeEvent (SubscribeEventRequest) returns (stream SubscribeEventResponse) {}
+
+
+  // ##########################
+  // Firmware Version
+  // ##########################
+
+  // ファームウェアバージョン
+  rpc GetFirmwareVersion (GetFirmwareVersionRequest) returns (GetFirmwareVersionResponse) {}
+  // ファームウェアアップデート
+  rpc UpdateFirmware (UpdateFirmwareRequest) returns (UpdateFirmwareResponse) {}
+  // 製造時シリアル番号
+  rpc GetProductSerialNumber (GetProductSerialNumberRequest) returns (GetProductSerialNumberResponse) {}
+  // 製造時バージョン
+  rpc GetProductVersion (GetProductVersionRequest) returns (GetProductVersionResponse) {}
+
+
+  // ##########################
+  // 無線同期
+  // ##########################
+
+  // デバイスの同期が確立しているかどうか確認する
+  rpc IsDeviceSyncEstablished (IsDeviceSyncEstablishedRequest) returns (IsDeviceSyncEstablishedResponse) {}
+  // カメラの同期が最後に確立した時間を取得する
+  rpc GetDeviceSyncLastEstablishedTime (GetDeviceSyncLastEstablishedTimeRequest) returns (GetDeviceSyncLastEstablishedTimeResponse) {}
+  // カメラの同期が最後に失敗した時間を取得する
+  rpc GetDeviceSyncLastFailedTime (GetDeviceSyncLastFailedTimeRequest) returns (GetDeviceSyncLastFailedTimeResponse) {}
+  // デバイスの中心周波数を取得する
+  rpc GetDeviceSyncCf (GetDeviceSyncCfRequest) returns (GetDeviceSyncCfResponse) {}
+  // デバイスの中心周波数を設定する（親機のみ可、子機は親機に追随する）
+  rpc SetDeviceSyncCf (SetDeviceSyncCfRequest) returns (SetDeviceSyncCfResponse) {}
+  // デバイスの送信出力を取得する
+  rpc GetDeviceSyncTxPower (GetDeviceSyncTxPowerRequest) returns (GetDeviceSyncTxPowerResponse) {}
+  // デバイスの送信出力を設定する
+  rpc SetDeviceSyncTxPower (SetDeviceSyncTxPowerRequest) returns (SetDeviceSyncTxPowerResponse) {}
+
+
+  // ##########################
+  // ファクトリリセット
+  // ##########################
+
+  // ファクトリリセットを実行する
+  rpc ExecuteFactoryReset (ExecuteFactoryResetRequest) returns (ExecuteFactoryResetResponse) {}
+}
+
+message SayHelloRequest {
+  string name = 1;
+  optional google.protobuf.Duration delay = 2;
+}
+
+message SayHelloResponse {
+  bool success = 1;
+  string message = 2;
+}
+
+message BuildInfo {
+  string hash_id = 1;
+  string tag = 2;
+  google.protobuf.Timestamp build_time = 3;
+}
+
+message ServiceBuildInfo {
+  string service_name = 1;
+  BuildInfo build_info = 2;
+}
+
+message GetBuildInfoRequest {
+  //
+}
+
+message GetBuildInfoResponse {
+  bool success = 1;
+  BuildInfo build_info = 2;
+}
+
+message GetBuildInfoAllRequest {
+  //
+}
+
+message GetBuildInfoAllResponse {
+  bool success = 1;
+  repeated ServiceBuildInfo services = 2;
+}
+
+message Session {
+  string sdp = 1;
+  repeated string ices = 2;
+}
+
+message ConnectToLiveStreamRequest {
+  Session client = 1;
+}
+
+message ConnectToLiveStreamResponse {
+  Session service = 1;
+  bool success = 2;
+}
+
+message CheckTrimMP4FileSupportedRequest {
+  string file_name = 1;
+}
+
+message CheckTrimMP4FileSupportedResponse {
+  enum TrimMP4FileSupportLevel {
+    TRIM_MP4_FILE_SUPPORT_LEVEL_UNSPECIFIED = 0;
+    TRIM_MP4_FILE_SUPPORT_LEVEL_NOTSUPPORTED = 1;
+    TRIM_MP4_FILE_SUPPORT_LEVEL_LIMITED = 2;
+    TRIM_MP4_FILE_SUPPORT_LEVEL_FULL = 3;
+  }
+
+  TrimMP4FileSupportLevel level = 1;
+}
+
+message TrimMP4FileRequest {
+  enum TrimMP4FileMode {
+    TRIM_MP4_FILE_MODE_UNSPECIFIED = 0;
+    TRIM_MP4_FILE_MODE_TIME = 1;
+    TRIM_MP4_FILE_MODE_FORCE_KEYFRAME = 2;
+    TRIM_MP4_FILE_MODE_FORCE_KEYFRAME_SYNC = 3;
+  }
+
+  TrimMP4FileMode mode = 1;
+  string file_name = 2;
+  google.protobuf.Duration start = 3;
+  google.protobuf.Duration length = 4;
+}
+
+message TrimMP4FileResponse {
+  bool success = 1;
+  string filename = 2;
+}
+
+message GetCameraNicknameRequest {
+  //
+}
+
+message GetCameraNicknameResponse {
+  string nickname = 1;
+}
+
+message SetCameraNicknameRequest {
+  string nickname = 1;
+}
+
+message SetCameraNicknameResponse {
+  bool success = 1;
+}
+
+message GetCameraPriorityRequest {
+  //
+}
+
+message GetCameraPriorityResponse {
+  int32 priority = 1;
+}
+
+message SetCameraPriorityRequest {
+  int32 priority = 1;
+}
+
+message SetCameraPriorityResponse {
+  bool success = 1;
+}
+
+  
+// ##########################
+// Camera
+// ##########################
+
+
+// ---------------------
+// white balance auto
+// ---------------------
+
+message GetCameraWhiteBalanceAutoRequest {
+  //
+}
+
+message GetCameraWhiteBalanceAutoResponse {
+  bool enable = 1;
+}
+
+message SetCameraWhiteBalanceAutoRequest {
+  bool enable = 1;
+}
+
+message SetCameraWhiteBalanceAutoResponse {
+  //
+}
+
+// ---------------------
+// white balance red
+// ---------------------
+
+message GetCameraWhiteBalanceRedRequest {
+  //
+}
+
+message GetCameraWhiteBalanceRedResponse {
+  int64 value = 1;
+  int64 default_value = 2;
+  int64 step = 3;
+  int64 minimum = 4;
+  int64 maximum = 5;
+}
+
+message SetCameraWhiteBalanceRedRequest {
+  int64 value = 1;
+}
+
+message SetCameraWhiteBalanceRedResponse {
+  //
+}
+
+// ---------------------
+// white balance blue
+// ---------------------
+
+message GetCameraWhiteBalanceBlueRequest {
+  //
+}
+
+message GetCameraWhiteBalanceBlueResponse {
+  int64 value = 1;
+  int64 default_value = 2;
+  int64 step = 3;
+  int64 minimum = 4;
+  int64 maximum = 5;
+}
+
+message SetCameraWhiteBalanceBlueRequest {
+  int64 value = 1;
+}
+
+message SetCameraWhiteBalanceBlueResponse {
+  //
+}
+
+// ---------------------
+// gamma
+// ---------------------
+
+message GetCameraGammaRequest {
+  //
+}
+
+message GetCameraGammaResponse {
+  int64 value = 1;
+  int64 default_value = 2;
+  int64 step = 3;
+  int64 minimum = 4;
+  int64 maximum = 5;
+}
+
+message SetCameraGammaRequest {
+  int64 value = 1;
+}
+
+message SetCameraGammaResponse {
+  //
+}
+
+// ---------------------
+// exposure
+// ---------------------
+
+message GetCameraExposureRequest {
+  //
+}
+
+message GetCameraExposureResponse {
+  int64 value = 1;
+  int64 default_value = 2;
+  int64 step = 3;
+  int64 minimum = 4;
+  int64 maximum = 5;
+}
+
+message SetCameraExposureRequest {
+  int64 value = 1;
+}
+
+message SetCameraExposureResponse {
+  //
+}
+
+// ---------------------
+// exposure auto
+// ---------------------
+
+message GetCameraExposureAutoRequest {
+  //
+}
+
+message GetCameraExposureAutoResponse {
+  bool enable = 1;
+}
+
+message SetCameraExposureAutoRequest {
+  bool enable = 1;
+}
+
+message SetCameraExposureAutoResponse {
+  //
+}
+
+// ---------------------
+// exposure absolute
+// ---------------------
+
+message GetCameraExposureAbsoluteRequest {
+  //
+}
+
+message GetCameraExposureAbsoluteResponse {
+  int64 value = 1;
+  int64 default_value = 2;
+  int64 step = 3;
+  int64 minimum = 4;
+  int64 maximum = 5;
+}
+
+message SetCameraExposureAbsoluteRequest {
+  int64 value = 1;
+}
+
+message SetCameraExposureAbsoluteResponse {
+  //
+}
+
+// ---------------------
+// exposure auto min
+// ---------------------
+
+message GetCameraExposureAutoMinRequest {
+  //
+}
+
+message GetCameraExposureAutoMinResponse {
+  int64 value = 1;
+  int64 default_value = 2;
+  int64 step = 3;
+  int64 minimum = 4;
+  int64 maximum = 5;
+}
+
+message SetCameraExposureAutoMinRequest {
+  int64 value = 1;
+}
+
+message SetCameraExposureAutoMinResponse {
+  //
+}
+
+// ---------------------
+// exposure auto max
+// ---------------------
+
+message GetCameraExposureAutoMaxRequest {
+  //
+}
+
+message GetCameraExposureAutoMaxResponse {
+  int64 value = 1;
+  int64 default_value = 2;
+  int64 step = 3;
+  int64 minimum = 4;
+  int64 maximum = 5;
+}
+
+message SetCameraExposureAutoMaxRequest {
+  int64 value = 1;
+}
+
+message SetCameraExposureAutoMaxResponse {
+  //
+}
+
+// ---------------------
+// gain
+// ---------------------
+
+message GetCameraGainRequest {
+  //
+}
+
+message GetCameraGainResponse {
+  int64 value = 1;
+  int64 default_value = 2;
+  int64 step = 3;
+  int64 minimum = 4;
+  int64 maximum = 5;
+}
+
+message SetCameraGainRequest {
+  int64 value = 1;
+}
+
+message SetCameraGainResponse {
+  //
+}
+
+// ---------------------
+// gain auto
+// ---------------------
+
+message GetCameraGainAutoRequest {
+  //
+}
+
+message GetCameraGainAutoResponse {
+  bool enable = 1;
+}
+
+message SetCameraGainAutoRequest {
+  bool enable = 1;
+}
+
+message SetCameraGainAutoResponse {
+  //
+}
+
+// ---------------------
+// gain auto min
+// ---------------------
+
+message GetCameraGainAutoMinRequest {
+  //
+}
+
+message GetCameraGainAutoMinResponse {
+  int64 value = 1;
+  int64 default_value = 2;
+  int64 step = 3;
+  int64 minimum = 4;
+  int64 maximum = 5;
+}
+
+message SetCameraGainAutoMinRequest {
+  int64 value = 1;
+}
+
+message SetCameraGainAutoMinResponse {
+  //
+}
+
+// ---------------------
+// gain auto max
+// ---------------------
+
+message GetCameraGainAutoMaxRequest {
+  //
+}
+
+message GetCameraGainAutoMaxResponse {
+  int64 value = 1;
+  int64 default_value = 2;
+  int64 step = 3;
+  int64 minimum = 4;
+  int64 maximum = 5;
+}
+
+message SetCameraGainAutoMaxRequest {
+  int64 value = 1;
+}
+
+message SetCameraGainAutoMaxResponse {
+  //
+}
+
+// ---------------------
+// frame size
+// ---------------------
+
+enum CameraFrameSizeType {
+  CAMERA_FRAME_SIZE_TYPE_UNSPECIFIED = 0;
+  CAMERA_FRAME_SIZE_TYPE_RECORD = 1;
+  CAMERA_FRAME_SIZE_TYPE_LIVE = 2;
+}
+
+message GetCameraFrameSizeWidthRequest {
+  CameraFrameSizeType type = 1;
+}
+
+message GetCameraFrameSizeWidthResponse {
+  CameraFrameSizeType type = 1;
+  int64 value = 2;
+  int64 default_value = 3;
+  int64 step = 4;
+  int64 minimum = 5;
+  int64 maximum = 6;
+}
+
+message SetCameraFrameSizeWidthRequest {
+  CameraFrameSizeType type = 1;
+  int64 value = 2;
+}
+
+message SetCameraFrameSizeWidthResponse {
+  //
+}
+
+message GetCameraFrameSizeHeightRequest {
+  CameraFrameSizeType type = 1;
+}
+
+message GetCameraFrameSizeHeightResponse {
+  CameraFrameSizeType type = 1;
+  int64 value = 2;
+  int64 default_value = 3;
+  int64 step = 4;
+  int64 minimum = 5;
+  int64 maximum = 6;
+}
+
+message SetCameraFrameSizeHeightRequest {
+  CameraFrameSizeType type = 1;
+  int64 value = 2;
+}
+
+message SetCameraFrameSizeHeightResponse {
+  //
+}
+
+message GetCameraActualFrameSizeRequest {
+  CameraFrameSizeType type = 1;
+}
+
+message GetCameraActualFrameSizeResponse {
+  CameraFrameSizeType type = 1;
+  int64 width = 2;
+  int64 height = 3;
+}
+
+// ---------------------
+// frame rate
+// ---------------------
+
+enum CameraFrameRateType {
+  CAMERA_FRAME_RATE_TYPE_UNSPECIFIED = 0;
+  CAMERA_FRAME_RATE_TYPE_RECORD = 1;
+  CAMERA_FRAME_RATE_TYPE_LIVE = 2;
+}
+
+message GetCameraFrameRateRequest {
+  CameraFrameRateType type = 1;
+}
+
+message GetCameraFrameRateResponse {
+  CameraFrameRateType type = 1;
+  int64 value = 2;
+  int64 default_value = 3;
+  int64 step = 4;
+  int64 minimum = 5;
+  int64 maximum = 6;
+}
+
+message SetCameraFrameRateRequest {
+  CameraFrameRateType type = 1;
+  int64 value = 2;
+}
+
+message SetCameraFrameRateResponse {
+  //
+}
+
+message GetCameraActualFrameRateRequest {
+  CameraFrameRateType type = 1;
+}
+
+message GetCameraActualFrameRateResponse {
+  CameraFrameRateType type = 1;
+  float value = 2;
+}
+
+// ---------------------
+// image flipping
+// ---------------------
+
+enum ImageFlipMode {
+  IMAGE_FLIP_MODE_UNSPECIFIED = 0;
+  IMAGE_FLIP_MODE_NONE = 1;
+  IMAGE_FLIP_MODE_HORIZONTAL = 2;
+  IMAGE_FLIP_MODE_VERTICAL = 3;
+  IMAGE_FLIP_MODE_BOTH = 4;
+}
+
+message GetCameraImageFlippingRequest {
+  //
+}
+
+message GetCameraImageFlippingResponse {
+  ImageFlipMode mode = 1;
+}
+
+message SetCameraImageFlippingRequest {
+  ImageFlipMode mode = 1;
+}
+
+message SetCameraImageFlippingResponse {
+  bool success = 1;
+}
+
+
+// ##########################
+// Clock
+// ##########################
+
+message FrameTimestamp {
+  int64 epoch = 1;
+  int64 sub_frame = 2;
+  int64 frame_rate = 3;
+}
+
+message GetCurrentTimeRequest {
+  //
+}
+
+message GetCurrentTimeResponse {
+  google.protobuf.Timestamp timestamp = 1;
+  FrameTimestamp frame_timestamp = 2;
+}
+
+message GetSystemTimeRequest {
+  //
+}
+
+message GetSystemTimeResponse {
+  bool success = 1;
+  google.protobuf.Timestamp time = 2;
+}
+
+message SetSystemTimeRequest {
+  google.protobuf.Timestamp time = 1;
+}
+
+message SetSystemTimeResponse {
+  bool success = 1;
+}
+
+
+// ##########################
+// Power Management
+// ##########################
+
+message ShutdownDeviceRequest {
+  //
+}
+
+message ShutdownDeviceResponse {
+  bool success = 1;
+}
+
+message RestartDeviceRequest {
+  //
+}
+
+message RestartDeviceResponse {
+  bool success = 1;
+}
+
+message GetDeviceAutoBootModeOnPowerSupplyRequest {
+  //
+}
+
+message GetDeviceAutoBootModeOnPowerSupplyResponse {
+  bool success = 1;
+  bool enable = 2;
+}
+
+message SetDeviceAutoBootModeOnPowerSupplyRequest {
+  bool enable = 1;
+}
+
+message SetDeviceAutoBootModeOnPowerSupplyResponse {
+  bool success = 1;
+}
+
+message GetDeviceBootTimeRequest {
+  //
+}
+
+message GetDeviceBootTimeResponse {
+  bool success = 1;
+  google.protobuf.Timestamp boottime = 2;
+}
+
+message GetDeviceThermalShutdownEnabledRequest {
+  //
+}
+
+message GetDeviceThermalShutdownEnabledResponse {
+  bool success = 1;
+  bool enable = 2;
+}
+
+message SetDeviceThermalShutdownEnabledRequest {
+  bool enable = 1;
+}
+
+message SetDeviceThermalShutdownEnabledResponse {
+  bool success = 1;
+}
+
+message GetDeviceFanSpeedControlRequest {
+  //
+}
+
+message GetDeviceFanSpeedControlResponse {
+  bool success = 1;
+  bool enable_manual_control = 2;
+  uint32 speed = 3; 
+}
+
+message SetDeviceFanSpeedControlRequest {
+  bool enable_manual_control = 1;
+  uint32 speed = 2; 
+}
+
+message SetDeviceFanSpeedControlResponse {
+  bool success = 1;
+}
+
+enum MainboardPowerMode {
+  MAINBOARD_POWER_MODE_UNSPECIFIED = 0;
+  MAINBOARD_POWER_MODE_15W_2CORE = 1;
+  MAINBOARD_POWER_MODE_15W_4CORE = 2;
+  MAINBOARD_POWER_MODE_15W_6CORE = 3;
+  MAINBOARD_POWER_MODE_10W_2CORE = 4;
+  MAINBOARD_POWER_MODE_10W_4CORE = 5;
+  MAINBOARD_POWER_MODE_10W_DESKTOP = 6;
+  MAINBOARD_POWER_MODE_20W_2CORE = 7;
+  MAINBOARD_POWER_MODE_20W_4CORE = 8;
+  MAINBOARD_POWER_MODE_20W_6CORE = 9;
+}
+
+message GetMainboardPowerModeRequest {
+  //
+}
+
+message GetMainboardPowerModeResponse {
+  bool success = 1;
+  MainboardPowerMode mode = 2;
+}
+
+message SetMainboardPowerModeRequest {
+  MainboardPowerMode mode = 1;
+}
+
+message SetMainboardPowerModeResponse {
+  bool success = 1;
+}
+
+
+// ##########################
+// Record / Trimming
+// ##########################
+
+// ---------------------
+// metadata
+// ---------------------
+enum FileMetadataType {
+  FILE_METADATA_TYPE_UNSPECIFIED = 0;
+  FILE_METADATA_TYPE_SCENE_NAME = 1;
+  FILE_METADATA_TYPE_SUBJECT_ID = 2;
+  FILE_METADATA_TYPE_TAG = 3;
+  FILE_METADATA_TYPE_CALIBRATION_INTRINSICS = 4;
+  FILE_METADATA_TYPE_CALIBRATION_EXTRINSICS = 5;
+  FILE_METADATA_TYPE_FRAME_DROPS = 6;
+  FILE_METADATA_TYPE_FRAME_TIMESTAMPS = 7;
+  FILE_METADATA_TYPE_RECORDING_LOG = 8;
+  FILE_METADATA_TYPE_CAMERA_NAME = 9;
+}
+
+message FileMetadata {
+  FileMetadataType type = 1;
+  string data = 2;
+}
+
+// ---------------------
+// rec
+// ---------------------
+
+message Record {
+  string key = 1;
+  string file_name = 2;
+}
+
+message StartRecorderRequest {
+  optional string key = 1;
+  optional google.protobuf.Timestamp start_time = 2;
+  optional string file_name = 3;
+}
+
+message StartRecorderResponse {
+  bool success = 1;
+  string key = 2;
+  google.protobuf.Timestamp start_time = 3;
+}
+
+message StartRecorderWithDurationRequest {
+  optional string key = 1;
+  optional google.protobuf.Timestamp start_time = 2;
+  google.protobuf.Duration duration = 3;
+  optional string file_name = 4;
+  repeated FileMetadata metadatas = 5;
+}
+
+message StartRecorderWithDurationResponse {
+  bool success = 1;
+  Record record = 2;
+  google.protobuf.Timestamp start_time = 3;
+}
+
+message StopRecorderRequest {
+  string key = 1;
+  optional google.protobuf.Timestamp stop_time = 2;
+  optional bool blocking = 3;
+  repeated FileMetadata metadatas = 4;
+}
+
+message StopRecorderResponse {
+  bool success = 1;
+  Record record = 2;
+}
+
+message TrimRecorderRequest {
+  optional string key = 1;
+  google.protobuf.Timestamp start_time = 2;
+  optional google.protobuf.Timestamp end_time = 3;
+  optional string file_name = 4;
+  optional bool blocking = 5;
+  repeated FileMetadata metadatas = 6;
+}
+
+message TrimRecorderResponse {
+  bool success = 1;
+  Record record = 2;
+}
+
+message ShutdownRecorderAllRequest {
+  //
+}
+
+message ShutdownRecorderAllResponse {
+  repeated Record records = 1;
+}
+
+// ---------------------
+// 録画状態管理
+// ---------------------
+
+message GetRecordingKeysRequest {
+  //
+}
+
+message GetRecordingKeysResponse {
+  repeated string keys = 1;
+}
+
+message CheckRecordingKeyExistsRequest {
+  string key = 1;
+}
+
+message CheckRecordingKeyExistsResponse {
+  bool exists = 1;
+}
+
+message GetRecordingFileTimeLengthRequest {
+  string key = 1;
+}
+
+message GetRecordingFileTimeLengthResponse {
+  google.protobuf.Duration time_length = 1;
+}
+
+message GetRecordingStartTimeRequest {
+  string key = 1;
+}
+
+message GetRecordingStartTimeResponse {
+  bool success = 1;
+  google.protobuf.Timestamp start_time = 2;
+}
+
+enum RecordingKeyStatus {
+  RECORDING_KEY_STATUS_UNSPECIFIED = 0;
+  RECORDING_KEY_STATUS_RESERVED = 1;
+  RECORDING_KEY_STATUS_RECORDING = 2;
+  RECORDING_KEY_STATUS_RECORDED = 3;
+  RECORDING_KEY_STATUS_EXPORTED = 4;
+  RECORDING_KEY_STATUS_CANCELLED = 5;
+  RECORDING_KEY_STATUS_NOT_EXISTS = 6;
+}
+
+message GetRecordingKeyStatusRequest {
+  string key = 1;
+}
+
+message GetRecordingKeyStatusResponse {
+  bool success = 1;
+  RecordingKeyStatus status = 2;
+}
+
+
+// ##########################
+// Recorded MP4
+// ##########################
+
+message GetRecordedFileCountRequest {
+  //
+}
+
+message GetRecordedFileCountResponse {
+  uint32 count = 1;
+}
+
+message GetRecordedFileListRequest {
+  enum ListOrder {
+    LIST_ORDER_UNSPECIFIED = 0;
+    LIST_ORDER_FILENAME_ASCENDING = 1;
+    LIST_ORDER_FILENAME_DESCENDING = 2;
+    LIST_ORDER_TIMESTAMP_ASCENDING = 3;
+    LIST_ORDER_TIMESTAMP_DESCENDING = 4;
+    LIST_ORDER_SIZE_ASCENDING = 5;
+    LIST_ORDER_SIZE_DESCENDING = 6;
+  }
+  message IndexRange {
+    // 開始インデックス(0,1,2...)
+    uint32 start_index = 1;
+    // 取得するファイル数
+    uint32 count_files = 2;
+  }
+
+  optional ListOrder order = 1;
+  optional IndexRange range = 2;
+}
+
+message GetRecordedFileListResponse {
+  message FileInfo {
+    uint32 index = 1;
+    string name = 2;
+    google.protobuf.Timestamp mod_time = 3; // = create_time
+    uint64 size = 4;
+    string thumbnail = 5;
+    string lightweight = 6; // = preview
+    bool protected = 7; // dummy
+  }
+
+  repeated FileInfo files = 1;
+}
+
+message GetRecordedFileListWithMetadatasRequest {
+  enum ListOrder {
+    LIST_ORDER_UNSPECIFIED = 0;
+    LIST_ORDER_FILENAME_ASCENDING = 1;
+    LIST_ORDER_FILENAME_DESCENDING = 2;
+    LIST_ORDER_TIMESTAMP_ASCENDING = 3;
+    LIST_ORDER_TIMESTAMP_DESCENDING = 4;
+    LIST_ORDER_SIZE_ASCENDING = 5;
+    LIST_ORDER_SIZE_DESCENDING = 6;
+  }
+  message IndexRange {
+    // 開始インデックス(0,1,2...)
+    uint32 start_index = 1;
+    // 取得するファイル数
+    uint32 count_files = 2;
+  }
+
+  optional ListOrder order = 1;
+  optional IndexRange range = 2;
+}
+
+message GetRecordedFileListWithMetadatasResponse {
+  message FileInfo {
+    uint32 index = 1;
+    string name = 2;
+    google.protobuf.Timestamp create_time = 3;  // = mod_time
+    uint64 size = 4;
+    string thumbnail = 5;
+    string preview = 6; // = lightweight
+    //
+    string scene_name = 7;
+    string subject_id = 8;
+    string tag = 9;
+    //
+    bool has_frame_drops = 10;
+    bool has_unstable_sync_frames = 11;
+    //
+    bool protected = 12;  // dummy
+  }
+
+  bool success = 1;
+  repeated FileInfo files = 2;
+}
+
+message UpdateRecordedFileListRequest {
+  optional string name = 1;
+}
+
+message UpdateRecordedFileListResponse {
+  bool success = 1;
+}
+
+message RemoveRecordedFileRequest {
+  string file_name = 1;
+}
+
+message RemoveRecordedFileResponse {
+  bool success = 1;
+}
+
+message RemoveRecordedFilesRequest {
+  repeated string file_names = 1;
+}
+
+message RemoveRecordedFilesResponse {
+  bool success = 1;
+}
+
+message RemoveRecordedFileAllRequest {
+  //
+}
+
+message RemoveRecordedFileAllResponse {
+  bool success = 1;
+}
+
+message GetRecordedFileMetadataRequest {
+  string file_name = 1;
+  FileMetadataType type = 2;
+}
+
+message GetRecordedFileMetadataResponse {
+  bool success = 1;
+  FileMetadata metadata = 2;
+  bool has_data = 3;
+}
+
+message SetRecordedFileMetadataRequest {
+  string file_name = 1;
+  FileMetadata metadata = 2;
+}
+
+message SetRecordedFileMetadataResponse {
+  bool success = 1;
+}
+
+message CheckRecordedFileExistsRequest {
+  string file_name = 1;
+}
+
+message CheckRecordedFileExistsResponse {
+  bool success = 1;
+  bool exists = 2;
+}
+
+message GetRecordedFileDroppedFramesInfoRequest {
+  string file_name = 1;
+}
+
+message GetRecordedFileDroppedFramesInfoResponse {
+  bool success = 1;
+  bool is_supported_file = 2;
+  bool is_frame_dropped = 3;
+  uint32 num_dropped_frames = 4;
+  repeated uint32 dropped_frames = 5;
+}
+
+message GetRecordedFileUnstableSyncFramesInfoRequest {
+  string file_name = 1;
+}
+
+message GetRecordedFileUnstableSyncFramesInfoResponse {
+  bool success = 1;
+  bool is_supported_file = 2;
+  bool is_unstable_sync = 3;
+  uint32 num_unstable_sync_frames = 4;
+  repeated uint32 unstable_sync_frames = 5;
+}
+
+message GetRecordingStorageUsageRequest {
+  //
+}
+
+message GetRecordingStorageUsageResponse {
+  bool success = 1;
+  uint64 total = 2;
+  uint64 free = 3;
+  uint64 used = 4;
+}
+
+message GetRecordingAutoRemoveEnabledRequest {
+  //
+}
+
+message GetRecordingAutoRemoveEnabledResponse {
+  bool success = 1;
+  bool enable = 2;
+}
+
+message SetRecordingAutoRemoveEnabledRequest {
+  bool enable = 1;
+}
+
+message SetRecordingAutoRemoveEnabledResponse {
+  bool success = 1;
+}
+
+
+// ##########################
+// Calibration
+// ##########################
+
+enum CalibrationType {
+  CALIBRATION_TYPE_UNSPECIFIED = 0;
+  CALIBRATION_TYPE_INTRINSIC_BOARD = 1;
+  CALIBRATION_TYPE_EXTRINSIC_BOARD = 2;
+  CALIBRATION_TYPE_INTRINSIC_TWAND = 3;
+  CALIBRATION_TYPE_EXTRINSIC_LFRAME = 4;
+}
+
+enum CalibrationLocation {
+  CALIBRATION_LOCATION_UNSPECIFIED = 0;
+  CALIBRATION_LOCATION_NONE = 1;
+  CALIBRATION_LOCATION_TOP_LEFT = 2;
+  CALIBRATION_LOCATION_TOP_CENTER = 3;
+  CALIBRATION_LOCATION_TOP_RIGHT = 4;
+  CALIBRATION_LOCATION_BOTTOM_LEFT = 5;
+  CALIBRATION_LOCATION_BOTTOM_CENTER = 6;
+  CALIBRATION_LOCATION_BOTTOM_RIGHT = 7;
+  CALIBRATION_LOCATION_CENTER = 8;
+}
+
+message TakeCalibrationSnapshotRequest {
+  CalibrationType type = 1;
+  optional CalibrationLocation location = 2;
+  optional google.protobuf.Timestamp timestamp = 3;
+  optional bool blocking = 4;
+}
+
+message TakeCalibrationSnapshotResponse {
+  bool success = 1;
+}
+
+message ResetCalibrationSnapshotsRequest {
+  //
+}
+
+message ResetCalibrationSnapshotsResponse {
+  bool success = 1;
+}
+
+message CameraUnit {
+  uint32 id = 1;
+  string ip_address = 2;
+}
+
+message RunCalibrationRequest {
+  repeated CalibrationType types = 1;
+  repeated CameraUnit cameras = 2;
+}
+
+message RunCalibrationResponse {
+  bool success = 1;
+}
+
+message GetCalibrationSnapshotsCountRequest {
+  CalibrationType type = 1;
+  optional CalibrationLocation location = 2;
+}
+
+message GetCalibrationSnapshotsCountResponse {
+  bool success = 1;
+  int32 count = 2;
+}
+
+message GetCalibrationSnapshotsCountAllRequest {
+  CalibrationType type = 1;
+}
+
+message GetCalibrationSnapshotsCountAllResponse {
+  message SnapshotCount {
+    CalibrationLocation location = 1;
+    int32 count = 2;
+  }
+  bool success = 1;
+  repeated SnapshotCount counts = 2;
+}
+
+enum CalibrationCameraSide {
+  CALIBRATION_CAMERA_SIDE_UNSPECIFIED = 0;
+  CALIBRATION_CAMERA_SIDE_FRONT = 1;
+  CALIBRATION_CAMERA_SIDE_BACK = 2;
+}
+
+message GetCalibrationCameraSideAgainstBoardRequest {
+  //
+}
+
+message GetCalibrationCameraSideAgainstBoardResponse {
+  CalibrationCameraSide side = 1;
+}
+
+message SetCalibrationCameraSideAgainstBoardRequest {
+  CalibrationCameraSide side = 1;
+}
+
+message SetCalibrationCameraSideAgainstBoardResponse {
+  bool success = 1;
+}
+
+message GetCalibrationResultRequest {
+  CalibrationType type = 1;
+}
+
+message GetCalibrationResultResponse {
+  bool success = 1;
+  string result = 2;
+}
+
+message CheckCalibrationResultExistsRequest {
+  CalibrationType type = 1;
+}
+
+message CheckCalibrationResultExistsResponse {
+  bool success = 1;
+  bool exists = 2;
+}
+
+message GetCalibrationEngineStatusRequest {
+  //
+}
+
+enum CalibrationEngineStatus {
+  CALIBRATION_ENGINE_STATUS_UNSPECIFIED = 0;
+  CALIBRATION_ENGINE_STATUS_FREE = 1;
+  CALIBRATION_ENGINE_STATUS_BUSY = 2;
+}
+
+message GetCalibrationEngineStatusResponse {
+  bool success = 1;
+  CalibrationEngineStatus status = 2;  
+}
+
+message SetCalibrationEngineStatusRequest {
+  CalibrationEngineStatus status = 1;
+}
+
+message SetCalibrationEngineStatusResponse {
+  bool success = 1;
+}
+
+message SetCalibrationResultRequest {
+  CalibrationType type = 1;
+  string result = 2;
+}
+
+message SetCalibrationResultResponse {
+  bool success = 1;
+}
+
+message RemoveCalibrationResultRequest {
+  bool intrinsic = 1;
+  bool extrinsic = 2;
+}
+
+message RemoveCalibrationResultResponse {
+  bool success = 1;
+}
+
+message GetCalibrationImageDataRequest {
+  CalibrationType type = 1;
+}
+
+message GetCalibrationImageDataResponse {
+  bool success = 1;
+  bytes data = 2;
+}
+
+message GetCalibrationResultUpdateTimestampRequest {
+  CalibrationType type = 1;
+}
+
+message GetCalibrationResultUpdateTimestampResponse {
+  bool success = 1;
+  google.protobuf.Timestamp timestamp = 2;
+}
+
+
+// ##########################
+// キャリブレーションマーカー
+// ##########################
+
+enum CalibratorDetectionMode {
+  CALIBRATOR_DETECTION_MODE_UNSPECIFIED = 0;
+  CALIBRATOR_DETECTION_MODE_NONE = 1;
+  CALIBRATOR_DETECTION_MODE_LFRAME_COPLANAR_4PT = 2;
+  CALIBRATOR_DETECTION_MODE_LFRAME_NON_COPLANAR_5PT = 3;
+  CALIBRATOR_DETECTION_MODE_TWAND_T_FORM_2PT = 4;
+  CALIBRATOR_DETECTION_MODE_TWAND_I_FORM_1PT = 5;
+}
+
+enum LFrameType {
+  LFRAME_TYPE_UNSPECIFIED = 0;
+  LFRAME_TYPE_COPLANAR_4PT = 1;
+  LFRAME_TYPE_NON_COPLANAR_5PT = 2;
+}
+
+enum LFrameErrorCode {
+  LFRAME_ERROR_CODE_SUCCESS = 0;
+  LFRAME_ERROR_CODE_UNKNOWN = 1;
+  LFRAME_ERROR_CODE_INVALID_ARGUMENTS = 2;
+  LFRAME_ERROR_CODE_FUNCTION_UNSUPPORTED = 3;
+  LFRAME_ERROR_CODE_TOO_BRIGHT = 4;
+  LFRAME_ERROR_CODE_MARKER_COUNT_TOO_FEW = 5;
+  LFRAME_ERROR_CODE_MARKER_COUNT_TOO_MANY = 6;
+  LFRAME_ERROR_CODE_NO_MARKERS_DETECTED = 7;
+  LFRAME_ERROR_CODE_LABELING_FAILURE = 8;
+  LFRAME_ERROR_CODE_DETECTION_LFRAME_FAILURE = 9;
+}
+
+enum TWandType {
+  TWAND_TYPE_UNSPECIFIED = 0;
+  TWAND_TYPE_T_FORM_2PT = 1;
+  TWAND_TYPE_I_FORM_1PT = 2;
+}
+
+enum TWandErrorCode {
+  TWAND_ERROR_CODE_SUCCESS = 0;
+  TWAND_ERROR_CODE_UNKNOWN = 1;
+  TWAND_ERROR_CODE_INVALID_ARGUMENTS = 2;
+  TWAND_ERROR_CODE_FUNCTION_UNSUPPORTED = 3;
+  TWAND_ERROR_CODE_TOO_BRIGHT = 4;
+  TWAND_ERROR_CODE_MARKER_COUNT_TOO_FEW = 5;
+  TWAND_ERROR_CODE_MARKER_COUNT_TOO_MANY = 6;
+  TWAND_ERROR_CODE_NO_MARKERS_DETECTED = 7;
+  TWAND_ERROR_CODE_LABELING_FAILURE = 8;
+  TWAND_ERROR_CODE_DETECTION_TWAND_FAILURE = 9;
+}
+
+message Marker {
+  double x = 1;
+  double y = 2;
+  double circularity = 3;
+  double size = 4;
+}
+
+message LFrameMarkers {
+  LFrameType l_frame_type = 1;
+  int32 num_markers = 2;
+  bool is_found = 3;
+  Marker o = 4;
+  Marker x = 5;
+  Marker y = 6;
+  Marker m = 7;
+  Marker n = 8;
+}
+
+message TWandMarkers {
+  TWandType t_wand_type = 1;
+  int32 num_markers = 2;
+  bool is_found = 3;
+  Marker r = 4;
+  Marker b = 5;
+}
+
+message GetCalibratorDetectionModeRequest {
+  //
+}
+
+message GetCalibratorDetectionModeResponse {
+  bool success = 1;
+  CalibratorDetectionMode mode = 2;
+}
+
+message SetCalibratorDetectionModeRequest {
+  CalibratorDetectionMode mode = 1;
+}
+
+message SetCalibratorDetectionModeResponse {
+  bool success = 1;
+}
+
+message GetLatestLFrameMarkerLocationRequest {
+  //
+}
+
+message GetLatestLFrameMarkerLocationResponse {
+  bool success = 1;
+  LFrameMarkers markers = 2;
+  FrameTimestamp frame_timestamp = 3;
+}
+
+message GetLatestTWandMarkerLocationRequest {
+  //
+}
+
+message GetLatestTWandMarkerLocationResponse {
+  bool success = 1;
+  TWandMarkers markers = 2;
+  FrameTimestamp frame_timestamp = 3;
+}
+
+message LFrameMarkerLocationPacket {
+  LFrameErrorCode error_code = 1;
+  LFrameMarkers markers = 2;
+  FrameTimestamp frame_timestamp = 3;
+}
+
+message GetLFrameMarkerLocationStreamRequest {
+  //
+}
+
+message GetLFrameMarkerLocationStreamResponse {
+  LFrameMarkerLocationPacket packet = 1;
+}
+
+message TWandMarkerLocationPacket {
+  TWandErrorCode error_code = 1;
+  TWandMarkers markers = 2;
+  FrameTimestamp frame_timestamp = 3;
+}
+
+message GetTWandMarkerLocationStreamRequest {
+  //
+}
+
+message GetTWandMarkerLocationStreamResponse {
+  TWandMarkerLocationPacket packet = 1;
+}
+
+message CalibrationLFrameMarkerSet {
+  CameraUnit camera = 1;
+  LFrameMarkerLocationPacket l_frame = 2;
+  double focal_length = 3;
+}
+
+message CalibrationTWandMarkerSet {
+  CameraUnit camera = 1;
+  repeated TWandMarkerLocationPacket t_wand = 2;
+  double focal_length = 3;
+}
+
+message SetCalibrationLFrameMarkerSetRequest {
+  repeated CalibrationLFrameMarkerSet markersets = 1;
+}
+
+message SetCalibrationLFrameMarkerSetResponse {
+  bool success = 1;
+}
+
+message SetCalibrationTWandMarkerSetRequest {
+  repeated CalibrationTWandMarkerSet markersets = 1;
+}
+
+message SetCalibrationTWandMarkerSetResponse {
+  bool success = 1;
+}
+
+
+// ##########################
+// Device
+// ##########################
+
+enum DeviceSyncMode {
+  DEVICE_SYNC_MODE_UNSPECIFIED = 0;
+  DEVICE_SYNC_MODE_LEADER = 1;
+  DEVICE_SYNC_MODE_FOLLOWER = 2;
+}
+
+message Device {
+  DeviceSyncMode mode = 1;
+  string hostname = 2;
+  string nickname = 3;
+  int32 priority = 4;
+  string serial_number = 5;
+  string ipv4_addr = 6;
+  string mac_addr = 7;
+  string interface = 8;
+}
+
+message GetDevicesRequest {
+  //
+}
+
+message GetDevicesResponse {
+  bool success = 1;
+  repeated Device devices = 2;
+}
+
+message GetDeviceActiveNetworkInterfacesRequest {
+  //
+}
+
+message GetDeviceActiveNetworkInterfacesResponse {
+  message NetworkInterface {
+    string name = 1;
+    string ipv4_addr = 2;
+    string ipv6_addr = 3;
+    string mac_addr = 4;
+  }
+  repeated NetworkInterface interfaces = 1;
+}
+
+message GetDeviceSerialNumberRequest {
+  //
+}
+
+message GetDeviceSerialNumberResponse {
+  string product = 1;
+}
+
+message GetDeviceHostnameRequest {
+  //
+}
+
+message GetDeviceHostnameResponse {
+  string hostname = 1;
+}
+
+message GetDeviceTemperatureRequest {
+  //
+}
+
+message GetDeviceTemperatureResponse {
+  bool success = 1;
+  //
+  float camera_sensor = 2;  // カメラモジュールの温度[C]
+  float sync_cpu = 3;       // 同期子機CPUの温度[C]
+  //
+  int32 core_aux = 4;       // AUXの温度[C]
+  int32 core_cpu = 5;       // CPUの温度[C]
+  int32 core_thermal = 6;   // 温度センサーの値[C]
+  int32 core_ao = 7;        // AOの温度[C]
+  int32 core_gpu = 8;       // GPUの温度[C]
+  int32 core_wifi = 9;      // WiFiモジュールの温度[C]
+  int32 core_pmic = 10;     // PMICの温度[C]
+  //
+  float ssd = 11; // SSDの温度[C]
+}
+
+message GetDeviceCPUUsageRequest {
+  //
+}
+
+message GetDeviceCPUUsageResponse {
+  repeated int64 cpu_usage = 1;
+}
+
+message GetDeviceMemoryUsageRequest {
+  //
+}
+
+message GetDeviceMemoryUsageResponse {
+  message MemoryUsage {
+    uint64 total = 1;
+    uint64 free = 2;
+    uint64 used = 3;
+  }
+  bool success = 1;
+  MemoryUsage ram = 2;
+  MemoryUsage swap = 3;
+}
+
+message GetDeviceDiskUsageRequest {
+  //
+}
+
+message GetDeviceDiskUsageResponse {
+  message DiskUsage {
+    uint64 total = 1;
+    uint64 free = 2;
+    uint64 used = 3;
+  }
+  bool success = 1;
+  DiskUsage system = 2;
+  DiskUsage service = 3;
+  DiskUsage data = 4;
+}
+
+message GetDeviceResourceUsageRequest {
+  //
+}
+
+message GetDeviceResourceUsageResponse {
+  int32 emc_usage = 1;
+  int32 gpu_usage = 2;
+}
+
+message GetDeviceStorageStatusRequest {
+  //
+}
+
+message GetDeviceStorageStatusResponse {
+  bool success = 1;
+  float temperature = 2;
+}
+
+message GetDeviceSyncStatusRequest {
+  //
+}
+
+message GetDeviceSyncStatusResponse {
+  bool success = 1;
+  bool paired = 2;
+  bool sync = 3;
+}
+
+message GetDeviceSyncModeRequest {
+  //
+}
+
+message GetDeviceSyncModeResponse {
+  bool success = 1;
+  DeviceSyncMode mode = 2;
+}
+
+message GetDeviceSyncIdRequest {
+  //
+}
+
+message GetDeviceSyncIdResponse {
+  bool success = 1;
+  string id = 2;
+}
+
+message GetDeviceVersionRequest {
+  //
+}
+
+message GetDeviceVersionResponse {
+  string firmware = 1;
+}
+
+message AddDeviceUNISONetUnitRequest {
+  int32 unit_id = 1;
+  string phy_id = 2;
+}
+
+message AddDeviceUNISONetUnitResponse {
+  bool success = 1;
+}
+
+message RemoveDeviceUNISONetUnitRequest {
+  int32 unit_id = 1;
+}
+
+message RemoveDeviceUNISONetUnitResponse {
+  bool success = 1;
+}
+
+enum CameraStatusLEDCustomMode {
+  CAMERA_STATUS_LED_CUSTOM_MODE_UNSPECIFIED = 0;
+  CAMERA_STATUS_LED_CUSTOM_MODE_NONE = 1;
+  CAMERA_STATUS_LED_CUSTOM_MODE_CUSTOM1 = 2;
+  CAMERA_STATUS_LED_CUSTOM_MODE_CUSTOM2 = 3;
+  CAMERA_STATUS_LED_CUSTOM_MODE_CUSTOM3 = 4;
+  CAMERA_STATUS_LED_CUSTOM_MODE_CUSTOM4 = 5;
+}
+
+message SetDeviceCameraStatusLEDCustomRequest {
+  CameraStatusLEDCustomMode mode = 1;
+}
+
+message SetDeviceCameraStatusLEDCustomResponse {
+  bool success = 1;
+}
+
+
+// ##########################
+// Wi-Fi
+// ##########################
+
+message GetWiFiFunctionsAvailableRequest {
+  //
+}
+
+message GetWiFiFunctionsAvailableResponse {
+  bool success = 1;
+  bool available = 2;
+}
+
+message GetWiFiNetworksRequest {
+  //
+}
+
+message GetWiFiNetworksResponse {
+  message WiFiNetwork {
+    bool in_use = 1;
+    string bssid = 2;
+    string ssid = 3;
+    string mode = 4;
+    int32 channel = 5;
+    int64 bitrate = 6;
+    int32 signal = 7;
+    string bars = 8;
+    repeated string securities = 9;
+  }
+
+  repeated WiFiNetwork networks = 1;
+}
+
+message RescanWiFiNetworksRequest {
+  //
+}
+
+message RescanWiFiNetworksResponse {
+  bool success = 1;
+}
+
+message ConnectToNewWiFiNetworkRequest {
+  string ssid = 1;
+  string password = 2;
+}
+
+message ConnectToNewWiFiNetworkResponse {
+  bool success = 1;
+}
+
+message ConnectToWiFiNetworkRequest {
+  string ssid = 1;
+}
+
+message ConnectToWiFiNetworkResponse {
+  bool success = 1;
+}
+
+message DisconnectFromWiFiNetworkRequest {
+  string ssid = 1;
+}
+
+message DisconnectFromWiFiNetworkResponse {
+  bool success = 1;
+}
+
+message RemoveWiFiNetworkRequest {
+  string ssid = 1;
+}
+
+message RemoveWiFiNetworkResponse {
+  bool success = 1;
+}
+
+message CheckWiFiEnabledRequest {
+  //
+}
+
+message CheckWiFiEnabledResponse {
+  bool enable = 1;
+}
+
+message EnableWiFiRequest {
+  //
+}
+
+message EnableWiFiResponse {
+  bool success = 1;
+}
+
+message DisableWiFiRequest {
+  //
+}
+
+message DisableWiFiResponse {
+  bool success = 1;
+}
+
+message CheckWiFiNetworkConnectionRequest {
+  optional string ssid = 1;
+}
+
+message CheckWiFiNetworkConnectionResponse {
+  bool connected = 1;
+  string ssid = 2;
+}
+
+message CheckInternetConnectionRequest {
+  optional string address = 1;
+}
+
+message CheckInternetConnectionResponse {
+  bool connected = 1;
+}
+
+message GetWiFiAPIPublicKeyRequest {
+  //
+}
+
+message GetWiFiAPIPublicKeyResponse {
+  bool success = 1;
+  string key = 2;
+}
+
+
+// ##########################
+// Messaging
+// ##########################
+
+enum EventType {
+  EVENT_TYPE_UNSPECIFIED = 0;
+  EVENT_TYPE_CUSTOM_EVENT = 1;
+  EVENT_TYPE_RECORDING_STARTED = 2;
+  EVENT_TYPE_RECORDING_STOPPED = 3;
+  EVENT_TYPE_RECORD_CREATED = 4;
+  EVENT_TYPE_RECORD_REMOVED = 5;
+  EVENT_TYPE_RECORD_UPDATED = 6;
+  EVENT_TYPE_IMAGE_GAIN_CHANGED = 7;
+  EVENT_TYPE_IMAGE_GAIN_AUTO_CHANGED = 8;
+  EVENT_TYPE_IMAGE_GAMMA_CHANGED = 9;
+  EVENT_TYPE_IMAGE_EXPOSURE_CHANGED = 10;
+  EVENT_TYPE_IMAGE_EXPOSURE_AUTO_CHANGED = 11;
+  EVENT_TYPE_IMAGE_FLIPPING_CHANGED = 12;
+  EVENT_TYPE_IMAGE_WB_AUTO_CHANGED = 13;
+  EVENT_TYPE_IMAGE_WB_RED_CHANGED = 14;
+  EVENT_TYPE_IMAGE_WB_BLUE_CHANGED = 15;
+  EVENT_TYPE_CALIB_INTRINSIC_IMAGE_SNAPPED = 16;
+  EVENT_TYPE_CALIB_INTRINSIC_IMAGE_REMOVED = 17;
+  EVENT_TYPE_CALIB_INTRINSIC_CALC_STARTED = 18;
+  EVENT_TYPE_CALIB_INTRINSIC_CALC_SUCCESS = 19;
+  EVENT_TYPE_CALIB_INTRINSIC_CALC_FAILURE = 20;
+  EVENT_TYPE_CALIB_EXTRINSIC_IMAGE_SNAPPED = 21;
+  EVENT_TYPE_CALIB_EXTRINSIC_IMAGE_REMOVED = 22;
+  EVENT_TYPE_CALIB_EXTRINSIC_CALC_STARTED = 23;
+  EVENT_TYPE_CALIB_EXTRINSIC_CALC_SUCCESS = 24;
+  EVENT_TYPE_CALIB_EXTRINSIC_CALC_FAILURE = 25;
+  EVENT_TYPE_POWER_SHUTDOWN = 26;
+  EVENT_TYPE_POWER_REBOOT = 27;
+  EVENT_TYPE_CAMERA_PRIORITY_CHANGED = 28;
+  EVENT_TYPE_CAMERA_NICKNAME_CHANGED = 29;
+  EVENT_TYPE_NETWORK_INTERNET_CONNECTED = 30;
+  EVENT_TYPE_NETWORK_INTERNET_DISCONNECTED = 31;
+  EVENT_TYPE_NETWORK_WIFI_CONNECTED = 32;
+  EVENT_TYPE_NETWORK_WIFI_DISCONNECTED = 33;
+  EVENT_TYPE_NETWORK_WIFI_INDOOR_ONLY = 34;
+  EVENT_TYPE_THERMAL_SHUTDOWN = 35;
+  EVENT_TYPE_INSUFFICIENT_COMPUTING_RESOURCES = 36;
+  EVENT_TYPE_IMAGE_ERROR_DETECTED = 37;
+  EVENT_TYPE_STORAGE_NO_SPACE_LEFT = 38;
+  EVENT_TYPE_STORAGE_LOW_FREE_SPACE = 39;
+  EVENT_TYPE_DEVICE_SYNC_ESTABLISHED = 40;
+  EVENT_TYPE_DEVICE_SYNC_UNSTABLE = 41;
+  EVENT_TYPE_DEVICE_MODE_SWITCH_TO_LEADER = 42;
+  EVENT_TYPE_DEVICE_MODE_SWITCH_TO_FOLLOWER = 43;
+  EVENT_TYPE_RECORDED_FILE_HAS_DROPPED_FRAMES = 44;
+  EVENT_TYPE_RECORDED_FILE_HAS_UNSTABLE_SYNC_FRAMES = 45;
+  EVENT_TYPE_TEMPERATURE_HIGH = 46;
+}
+
+message BroadcastEventRequest {
+  EventType type = 1;
+  uint64 flags = 2;
+  string tag = 3;
+}
+
+message BroadcastEventResponse {
+  bool success = 1;
+}
+
+message SubscribeEventRequest {
+  //
+}
+
+message SubscribeEventResponse {
+  EventType type = 1;
+  uint64 flags = 2;
+  string tag = 3;
+}
+
+
+// ##########################
+// Firmware Version
+// ##########################
+
+message GetFirmwareVersionRequest {
+  //
+}
+
+message GetFirmwareVersionResponse {
+  bool success = 1;
+  string core = 2;
+  string wsync = 3;
+  string power = 4;
+  string camera = 5;
+}
+
+message UpdateFirmwareRequest {
+  bytes data = 1;
+}
+
+message UpdateFirmwareResponse {
+  bool success = 1;
+}
+
+message GetProductSerialNumberRequest {
+  //
+}
+
+message GetProductSerialNumberResponse {
+  bool success = 1;
+  string model_number = 2;
+  string serial_number = 3;
+  string metadata = 4;
+}
+
+message GetProductVersionRequest {
+  //
+}
+
+message GetProductVersionResponse {
+  bool success = 1;
+  string version = 2;
+  string release_date = 3;
+  string metadata = 4;
+}
+
+
+// ##########################
+// 無線同期
+// ##########################
+
+enum DeviceSyncCf {
+  DEVICE_SYNC_CF_UNSPECIFIED = 0;
+  DEVICE_SYNC_CF_921_0 = 1; // 921.0[MHz]
+  DEVICE_SYNC_CF_921_2 = 2;
+  DEVICE_SYNC_CF_921_4 = 3;
+  DEVICE_SYNC_CF_921_6 = 4;
+  DEVICE_SYNC_CF_921_8 = 5;
+  DEVICE_SYNC_CF_922_0 = 6; // 922.0[MHz]
+  DEVICE_SYNC_CF_922_2 = 7;
+  DEVICE_SYNC_CF_922_4 = 8;
+  DEVICE_SYNC_CF_922_6 = 9;
+  DEVICE_SYNC_CF_922_8 = 10;
+  DEVICE_SYNC_CF_923_0 = 11; // 923.0[MHz]
+}
+
+enum DeviceSyncTxPower {
+  DEVICE_SYNC_TX_POWER_UNSPECIFIED = 0;
+  DEVICE_SYNC_TX_POWER_M10 = 1; // -10[dBm]
+  DEVICE_SYNC_TX_POWER_0 = 2; // 0[dBm]
+  DEVICE_SYNC_TX_POWER_1 = 3; // 1[dBm]
+  DEVICE_SYNC_TX_POWER_2 = 4; // 2[dBm]
+  DEVICE_SYNC_TX_POWER_3 = 5; // 3[dBm]
+  DEVICE_SYNC_TX_POWER_4 = 6; // 4[dBm]
+  DEVICE_SYNC_TX_POWER_5 = 7; // 5[dBm]
+  DEVICE_SYNC_TX_POWER_6 = 8; // 6[dBm]
+  DEVICE_SYNC_TX_POWER_7 = 9; // 7[dBm]
+  DEVICE_SYNC_TX_POWER_8 = 10; // 8[dBm]
+  DEVICE_SYNC_TX_POWER_9 = 11; // 9[dBm]
+  DEVICE_SYNC_TX_POWER_10 = 12; // 10[dBm]
+  DEVICE_SYNC_TX_POWER_11 = 13; // 11[dBm]
+  DEVICE_SYNC_TX_POWER_12 = 14; // 12[dBm]
+  DEVICE_SYNC_TX_POWER_13 = 15; // 13[dBm]
+  DEVICE_SYNC_TX_POWER_14 = 16; // 14[dBm]
+}
+
+message IsDeviceSyncEstablishedRequest {
+  //
+}
+
+message IsDeviceSyncEstablishedResponse {
+  bool success = 1;
+  bool established = 2;
+}
+
+message GetDeviceSyncLastEstablishedTimeRequest {
+  //
+}
+
+message GetDeviceSyncLastEstablishedTimeResponse {
+  bool success = 1;
+  google.protobuf.Timestamp timestamp = 2;
+}
+
+message GetDeviceSyncLastFailedTimeRequest {
+  //
+}
+
+message GetDeviceSyncLastFailedTimeResponse {
+  bool success = 1;
+  google.protobuf.Timestamp timestamp = 2;
+}
+
+message GetDeviceSyncCfRequest {
+  //
+}
+
+message GetDeviceSyncCfResponse {
+  bool success = 1;
+  DeviceSyncCf cf = 2;
+}
+
+message SetDeviceSyncCfRequest {
+  DeviceSyncCf cf = 1;
+}
+
+message SetDeviceSyncCfResponse {
+  bool success = 1;
+}
+
+message GetDeviceSyncTxPowerRequest {
+  //
+}
+
+message GetDeviceSyncTxPowerResponse {
+  bool success = 1;
+  DeviceSyncTxPower tx_power = 2;
+}
+
+message SetDeviceSyncTxPowerRequest {
+  DeviceSyncTxPower tx_power = 1;
+}
+
+message SetDeviceSyncTxPowerResponse {
+  bool success = 1;
+}
+
+
+// ##########################
+// ファクトリリセット
+// ##########################
+
+message ExecuteFactoryResetRequest {
+  //
+}
+
+message ExecuteFactoryResetResponse {
+  bool success = 1;
+}

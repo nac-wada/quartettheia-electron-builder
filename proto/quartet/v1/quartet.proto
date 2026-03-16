@@ -1,0 +1,741 @@
+syntax = "proto3";
+
+option go_package = "github.com/mkrless/quartet/gen/go/quartet/v1;quartetv1";
+
+package quartet.v1;
+
+import "google/protobuf/timestamp.proto";
+import "google/protobuf/duration.proto";
+
+service QuartetService {
+  // サービスの疎通テストを実行する
+  rpc SayHello (SayHelloRequest) returns (SayHelloResponse) {}
+  // ビルド情報を取得する
+  rpc GetBuildInfo (GetBuildInfoRequest) returns (GetBuildInfoResponse) {}
+
+  // デバイス探索
+  rpc GetDevices (GetDevicesRequest) returns (GetDevicesResponse) {}
+
+  // 現在時刻を取得
+  rpc GetCurrentTime (GetCurrentTimeRequest) returns (GetCurrentTimeResponse) {}
+
+  // システム時刻を取得する
+  rpc GetSystemTime (GetSystemTimeRequest) returns (GetSystemTimeResponse) {}
+  // システム時刻を設定する
+  rpc SetSystemTime (SetSystemTimeRequest) returns (SetSystemTimeResponse) {}
+  // システム時刻がズレているかどうか確認する
+  rpc IsSystemTimeDrifted (IsSystemTimeDriftedRequest) returns (IsSystemTimeDriftedResponse) {}
+
+  // 録画開始
+  rpc StartRecorder (StartRecorderRequest) returns (StartRecorderResponse) {}
+  // 指定した時刻から、指定した時間だけ録画する
+  rpc StartRecorderWithDuration (StartRecorderWithDurationRequest) returns (StartRecorderWithDurationResponse) {}
+  // 録画停止
+  rpc StopRecorder (StopRecorderRequest) returns (StopRecorderResponse) {}
+
+  // 録画中のキーを取得する
+  rpc GetRecordingCommonKeys (GetRecordingCommonKeysRequest) returns (GetRecordingCommonKeysResponse) {}
+  // 録画中のキーとして存在するか確認する
+  rpc IsRecordingKeyExists (IsRecordingKeyExistsRequest) returns (IsRecordingKeyExistsResponse) {}
+  // 録画開始時刻を取得する
+  rpc GetRecordingStartTime (GetRecordingStartTimeRequest) returns (GetRecordingStartTimeResponse) {}
+  // キーの状態を取得する
+  rpc GetRecordingKeyStatus (GetRecordingKeyStatusRequest) returns (GetRecordingKeyStatusResponse) {}
+
+  // 管理画面パスワード
+  rpc AuthenticateWebAppLoginAccount (AuthenticateWebAppLoginAccountRequest) returns (AuthenticateWebAppLoginAccountResponse) {}
+  rpc SetWebAppLoginAccount (SetWebAppLoginAccountRequest) returns (SetWebAppLoginAccountResponse) {}
+  rpc GetWebAppLoginAccountEnable (GetWebAppLoginAccountEnableRequest) returns (GetWebAppLoginAccountEnableResponse) {}
+  rpc SetWebAppLoginAccountEnable (SetWebAppLoginAccountEnableRequest) returns (SetWebAppLoginAccountEnableResponse) {}
+  // 管理画面パスワードの暗号化用の公開鍵を取得する
+  rpc GetWebAppLoginAPIPublicKey (GetWebAppLoginAPIPublicKeyRequest) returns (GetWebAppLoginAPIPublicKeyResponse) {}
+
+  // デバイスの設定を変更できるかどうか
+  rpc CanApplyDeviceConfiguration (CanApplyDeviceConfigurationRequest) returns (CanApplyDeviceConfigurationResponse) {}
+
+
+  // ##########################
+  // 無線同期
+  // ##########################
+
+  // デバイスの中心周波数を取得する
+  rpc GetDeviceSyncCf (GetDeviceSyncCfRequest) returns (GetDeviceSyncCfResponse) {}
+  // デバイスの中心周波数を設定する（親機のみ可、子機は親機に追随する）
+  rpc SetDeviceSyncCf (SetDeviceSyncCfRequest) returns (SetDeviceSyncCfResponse) {}
+  // デバイスの送信出力を取得する
+  rpc GetDeviceSyncTxPower (GetDeviceSyncTxPowerRequest) returns (GetDeviceSyncTxPowerResponse) {}
+  // デバイスの送信出力を設定する
+  rpc SetDeviceSyncTxPower (SetDeviceSyncTxPowerRequest) returns (SetDeviceSyncTxPowerResponse) {}
+
+  
+  // ##########################
+  // Calibration
+  // ##########################
+
+  // キャリブレーション治具を撮影する
+  rpc TakeCalibrationSnapshot (TakeCalibrationSnapshotRequest) returns (TakeCalibrationSnapshotResponse) {}
+
+  
+  // ##########################
+  // Recorded MP4
+  // ##########################
+
+  // 録画ファイル数を取得
+  rpc GetRecordedKeyFileGroupsCount (GetRecordedKeyFileGroupsCountRequest) returns (GetRecordedKeyFileGroupsCountResponse) {}
+  // 録画ファイルリストの取得
+  rpc GetRecordedKeyFileGroups (GetRecordedKeyFileGroupsRequest) returns (GetRecordedKeyFileGroupsResponse) {}
+  // メタデータ付きの録画ファイルリストの取得
+  rpc GetRecordedKeyFileGroupsWithMetadatas (GetRecordedKeyFileGroupsWithMetadatasRequest) returns (GetRecordedKeyFileGroupsWithMetadatasResponse) {}
+  // 録画ファイルの削除
+  rpc RemoveRecordedKeyFileGroup (RemoveRecordedKeyFileGroupRequest) returns (RemoveRecordedKeyFileGroupResponse) {}
+  // 録画ファイルの削除
+  rpc RemoveRecordedKeyFileGroups (RemoveRecordedKeyFileGroupsRequest) returns (RemoveRecordedKeyFileGroupsResponse) {}
+  // すべての録画ファイルの削除
+  rpc RemoveRecordedKeyFileGroupsAll (RemoveRecordedKeyFileGroupsAllRequest) returns (RemoveRecordedKeyFileGroupsAllResponse) {}
+
+
+  // ##########################
+  // Messaging
+  // ##########################
+
+  // メッセージをクライアントにブロードキャスト送信する
+  rpc BroadcastMessage (BroadcastMessageRequest) returns (BroadcastMessageResponse) {}
+  // メッセージを受信するためのストリームを取得する
+  rpc SubscribeMessage (SubscribeMessageRequest) returns (stream SubscribeMessageResponse) {}
+  // イベントをクライアントにブロードキャスト送信する
+  rpc BroadcastEvent (BroadcastEventRequest) returns (BroadcastEventResponse) {}
+  // イベントを受信するためのストリームを取得する
+  rpc SubscribeEvent (SubscribeEventRequest) returns (stream SubscribeEventResponse) {}
+}
+
+message SayHelloRequest {
+  string name = 1;
+}
+
+message SayHelloResponse {
+  string message = 1;
+}
+
+message BuildInfo {
+  string hash_id = 1;
+  string tag = 2;
+  google.protobuf.Timestamp build_time = 3;
+}
+
+message GetBuildInfoRequest {
+  //
+}
+
+message GetBuildInfoResponse {
+  bool success = 1;
+  BuildInfo build_info = 2;
+}
+
+// 互換性のため、構造体を維持
+message Device {
+  bool primary = 1;
+  string hostname = 2;
+  string nickname = 3;
+  int32 priority = 4;
+  string serial_number = 5;
+  string ipv4_addr = 6;
+  string mac_addr = 7;
+  string interface = 8;
+}
+
+message Record {
+  string ipv4_addr = 1;
+  string file_name = 2;
+}
+
+message FrameTimestamp {
+  int64 epoch = 1;
+  int64 sub_frame = 2;
+  int64 frame_rate = 3;
+}
+
+enum FileMetadataType {
+  FILE_METADATA_TYPE_UNSPECIFIED = 0;
+  FILE_METADATA_TYPE_SCENE_NAME = 1;
+  FILE_METADATA_TYPE_SUBJECT_ID = 2;
+  FILE_METADATA_TYPE_TAG = 3;
+  FILE_METADATA_TYPE_CALIBRATION_INTRINSICS = 4;
+  FILE_METADATA_TYPE_CALIBRATION_EXTRINSICS = 5;
+}
+
+message FileMetadata {
+  FileMetadataType type = 1;
+  string data = 2;
+}
+
+message GetDevicesRequest {
+  //
+}
+
+message GetDevicesResponse {
+  repeated Device devices = 1;
+}
+
+message GetCurrentTimeRequest {
+  //
+}
+
+message GetCurrentTimeResponse {
+  google.protobuf.Timestamp timestamp = 1;
+  FrameTimestamp frame_timestamp = 2;
+}
+
+message GetSystemTimeRequest {
+  //
+}
+
+message GetSystemTimeResponse {
+  bool success = 1;
+  google.protobuf.Timestamp time = 2;
+}
+
+message SetSystemTimeRequest {
+  google.protobuf.Timestamp time = 1;
+}
+
+message SetSystemTimeResponse {
+  bool success = 1;
+}
+
+message IsSystemTimeDriftedRequest {
+  //
+}
+
+message IsSystemTimeDriftedResponse {
+  bool success = 1;
+  bool drifted = 2;
+}
+
+message StartRecorderRequest {
+  repeated string ipv4_addrs = 1;
+  optional string key = 2;
+  optional google.protobuf.Timestamp start_time = 3;
+  optional string file_name = 4;
+}
+
+message StartRecorderResponse {
+  bool success = 1;
+  string key = 2;
+}
+
+message StartRecorderWithDurationRequest {
+  repeated string ipv4_addrs = 1;
+  optional string key = 2;
+  optional google.protobuf.Timestamp start_time = 3;
+  google.protobuf.Duration duration = 4;
+  optional string file_name = 5;
+  repeated FileMetadata metadatas = 6;
+}
+
+message StartRecorderWithDurationResponse {
+  bool success = 1;
+  string key = 2;
+  repeated Record record = 3;
+}
+
+message StopRecorderRequest {
+  repeated string ipv4_addrs = 1;
+  string key = 2;
+  optional google.protobuf.Timestamp stop_time = 3;
+  optional bool blocking = 4;
+  repeated FileMetadata metadatas = 5;
+}
+
+message StopRecorderResponse {
+  bool success = 1;
+  repeated Record records = 2;
+}
+
+message GetRecordedSceneNameRequest {
+  string key = 1;
+}
+
+message GetRecordedSceneNameResponse {
+  string scene_name = 1;
+}
+
+message SetRecordedSceneNameRequest {
+  string key = 1;
+  string scene_name = 2;
+}
+
+message SetRecordedSceneNameResponse {
+  //
+}
+
+message GetRecordedSubjectIDRequest {
+  string key = 1;
+}
+
+message GetRecordedSubjectIDResponse {
+  string subject_id = 1;
+}
+
+message SetRecordedSubjectIDRequest {
+  string key = 1;
+  string subject_id = 2;
+}
+
+message SetRecordedSubjectIDResponse {
+  //
+}
+
+message GetRecordedTagsRequest {
+  string key = 1;
+}
+
+message GetRecordedTagsResponse {
+  repeated string tags = 1;
+}
+
+message SetRecordedTagsRequest {
+  string key = 1;
+  repeated string tags = 2;
+}
+
+message SetRecordedTagsResponse {
+  //
+}
+
+message GetRecordingCommonKeysRequest {
+  repeated string ipv4_addrs = 1;
+}
+
+message GetRecordingCommonKeysResponse {
+  bool success = 1;
+  repeated string keys = 2;
+}
+
+message IsRecordingKeyExistsRequest {
+  repeated string ipv4_addrs = 1;
+  string key = 2;
+  bool partial_match = 3;
+}
+
+message IsRecordingKeyExistsResponse {
+  bool success = 1;
+  bool exists = 2;
+}
+
+message GetRecordingStartTimeRequest {
+  repeated string ipv4_addrs = 1;
+  string key = 2;
+}
+
+message GetRecordingStartTimeResponse {
+  bool success = 1;
+  google.protobuf.Timestamp start_time = 2;
+}
+
+enum RecordingKeyStatus {
+  RECORDING_KEY_STATUS_UNSPECIFIED = 0;
+  RECORDING_KEY_STATUS_RESERVED = 1;
+  RECORDING_KEY_STATUS_RECORDING = 2;
+  RECORDING_KEY_STATUS_RECORDED = 3;
+  RECORDING_KEY_STATUS_EXPORTED = 4;
+  RECORDING_KEY_STATUS_CANCELLED = 5;
+  RECORDING_KEY_STATUS_NOT_EXISTS = 6;
+}
+
+message GetRecordingKeyStatusRequest {
+  repeated string ipv4_addrs = 1;
+  string key = 2;
+}
+
+message GetRecordingKeyStatusResponse {
+  bool success = 1;
+  RecordingKeyStatus status = 2;
+}
+
+message GetRecordedKeysRequest {
+  //
+}
+
+message GetRecordedKeysResponse {
+  repeated string keys = 1;
+}
+
+message RemoveRecordedKeyRequest {
+  string key = 1;
+}
+
+message RemoveRecordedKeyResponse {
+  //
+}
+
+message RemoveRecordedKeysAllRequest {
+  //
+}
+
+message RemoveRecordedKeysAllResponse {
+  bool success = 1;
+}
+
+// 管理画面パスワード
+message AuthenticateWebAppLoginAccountRequest {
+  string name = 1;
+  string password = 2;
+}
+
+message AuthenticateWebAppLoginAccountResponse {
+  bool success = 1;
+}
+
+message SetWebAppLoginAccountRequest {
+  string name = 1;
+  string old_password = 2;
+  string new_password = 3;
+}
+
+message SetWebAppLoginAccountResponse {
+  bool success = 1;
+}
+
+message GetWebAppLoginAccountEnableRequest {
+  bool enable = 1;
+  string name = 2;
+  string password = 3;
+}
+
+message GetWebAppLoginAccountEnableResponse {
+  bool success = 1;
+  bool enable = 2;
+}
+
+message SetWebAppLoginAccountEnableRequest {
+  bool enable = 1;
+  string name = 2;
+  string password = 3;
+}
+
+message SetWebAppLoginAccountEnableResponse {
+  bool success = 1;
+}
+
+message GetWebAppLoginAPIPublicKeyRequest {
+  //
+}
+
+message GetWebAppLoginAPIPublicKeyResponse {
+  bool success = 1;
+  string key = 2;
+}
+
+message CanApplyDeviceConfigurationRequest {
+  //
+}
+
+message CanApplyDeviceConfigurationResponse {
+  bool success = 1;
+  bool can_apply = 2;
+}
+
+
+// ##########################
+// 無線同期
+// ##########################
+
+enum DeviceSyncCf {
+  DEVICE_SYNC_CF_UNSPECIFIED = 0;
+  DEVICE_SYNC_CF_921_0 = 1; // 921.0[MHz]
+  DEVICE_SYNC_CF_921_2 = 2;
+  DEVICE_SYNC_CF_921_4 = 3;
+  DEVICE_SYNC_CF_921_6 = 4;
+  DEVICE_SYNC_CF_921_8 = 5;
+  DEVICE_SYNC_CF_922_0 = 6; // 922.0[MHz]
+  DEVICE_SYNC_CF_922_2 = 7;
+  DEVICE_SYNC_CF_922_4 = 8;
+  DEVICE_SYNC_CF_922_6 = 9;
+  DEVICE_SYNC_CF_922_8 = 10;
+  DEVICE_SYNC_CF_923_0 = 11; // 923.0[MHz]
+}
+
+enum DeviceSyncTxPower {
+  DEVICE_SYNC_TX_POWER_UNSPECIFIED = 0;
+  DEVICE_SYNC_TX_POWER_M10 = 1; // -10[dBm]
+  DEVICE_SYNC_TX_POWER_0 = 2; // 0[dBm]
+  DEVICE_SYNC_TX_POWER_1 = 3; // 1[dBm]
+  DEVICE_SYNC_TX_POWER_2 = 4; // 2[dBm]
+  DEVICE_SYNC_TX_POWER_3 = 5; // 3[dBm]
+  DEVICE_SYNC_TX_POWER_4 = 6; // 4[dBm]
+  DEVICE_SYNC_TX_POWER_5 = 7; // 5[dBm]
+  DEVICE_SYNC_TX_POWER_6 = 8; // 6[dBm]
+  DEVICE_SYNC_TX_POWER_7 = 9; // 7[dBm]
+  DEVICE_SYNC_TX_POWER_8 = 10; // 8[dBm]
+  DEVICE_SYNC_TX_POWER_9 = 11; // 9[dBm]
+  DEVICE_SYNC_TX_POWER_10 = 12; // 10[dBm]
+  DEVICE_SYNC_TX_POWER_11 = 13; // 11[dBm]
+  DEVICE_SYNC_TX_POWER_12 = 14; // 12[dBm]
+  DEVICE_SYNC_TX_POWER_13 = 15; // 13[dBm]
+  DEVICE_SYNC_TX_POWER_14 = 16; // 14[dBm]
+}
+
+message GetDeviceSyncCfRequest {
+  //
+}
+
+message GetDeviceSyncCfResponse {
+  bool success = 1;
+  DeviceSyncCf cf = 2;
+}
+
+message SetDeviceSyncCfRequest {
+  DeviceSyncCf cf = 1;
+}
+
+message SetDeviceSyncCfResponse {
+  bool success = 1;
+}
+
+message GetDeviceSyncTxPowerRequest {
+  //
+}
+
+message GetDeviceSyncTxPowerResponse {
+  bool success = 1;
+  DeviceSyncTxPower tx_power = 2;
+}
+
+message SetDeviceSyncTxPowerRequest {
+  DeviceSyncTxPower tx_power = 1;
+}
+
+message SetDeviceSyncTxPowerResponse {
+  bool success = 1;
+}
+
+
+// ##########################
+// Calibration
+// ##########################
+
+enum CalibrationType {
+  CALIBRATION_TYPE_UNSPECIFIED = 0;
+  CALIBRATION_TYPE_INTRINSIC_BOARD = 1;
+  CALIBRATION_TYPE_EXTRINSIC_BOARD = 2;
+  CALIBRATION_TYPE_INTRINSIC_TWAND = 3;
+  CALIBRATION_TYPE_EXTRINSIC_LFRAME = 4;
+}
+
+message TakeCalibrationSnapshotRequest {
+  repeated string ipv4_addrs = 1;
+  CalibrationType type = 2;
+  optional google.protobuf.Timestamp timestamp = 3;
+  optional bool blocking = 4;
+}
+
+message TakeCalibrationSnapshotResponse {
+  bool success = 1;
+}
+
+
+// ##########################
+// Recorded MP4
+// ##########################
+
+message GetRecordedKeyFileGroupsCountRequest {
+  repeated string ipv4_addrs = 1;
+}
+
+message GetRecordedKeyFileGroupsCountResponse {
+  bool success = 1;
+  uint32 count = 2;
+}
+
+message GetRecordedKeyFileGroupsRequest {
+  enum ListOrder {
+    LIST_ORDER_UNSPECIFIED = 0;
+    LIST_ORDER_FILENAME_ASCENDING = 1;
+    LIST_ORDER_FILENAME_DESCENDING = 2;
+    LIST_ORDER_TIMESTAMP_ASCENDING = 3;
+    LIST_ORDER_TIMESTAMP_DESCENDING = 4;
+    LIST_ORDER_SIZE_ASCENDING = 5;
+    LIST_ORDER_SIZE_DESCENDING = 6;
+  }
+  message IndexRange {
+    // 開始インデックス(0,1,2...)
+    uint32 start_index = 1;
+    // 取得するファイル数
+    uint32 count_files = 2;
+  }
+
+  repeated string ipv4_addrs = 1;
+  optional ListOrder order = 2;
+  optional IndexRange range = 3;
+}
+
+message GetRecordedKeyFileGroupsResponse {
+  message File {
+    uint32 index = 1;
+    string ipv4_addr = 2;
+    string name = 3;
+    google.protobuf.Timestamp mod_time = 4; // = create_time
+    uint64 size = 5;
+    string thumbnail = 6;
+    string lightweight = 7; // = preview
+    bool protected = 8; // dummy
+  }
+  message KeyFileGroup {
+    string key = 1;
+    repeated File files = 2;
+  }
+
+  bool success = 1;
+  repeated KeyFileGroup groups = 2;
+}
+
+message GetRecordedKeyFileGroupsWithMetadatasRequest {
+  enum ListOrder {
+    LIST_ORDER_UNSPECIFIED = 0;
+    LIST_ORDER_FILENAME_ASCENDING = 1;
+    LIST_ORDER_FILENAME_DESCENDING = 2;
+    LIST_ORDER_TIMESTAMP_ASCENDING = 3;
+    LIST_ORDER_TIMESTAMP_DESCENDING = 4;
+    LIST_ORDER_SIZE_ASCENDING = 5;
+    LIST_ORDER_SIZE_DESCENDING = 6;
+  }
+  message IndexRange {
+    // 開始インデックス(0,1,2...)
+    uint32 start_index = 1;
+    // 取得するファイル数
+    uint32 count_files = 2;
+  }
+
+  repeated string ipv4_addrs = 1;
+  optional ListOrder order = 2;
+  optional IndexRange range = 3;
+}
+
+message GetRecordedKeyFileGroupsWithMetadatasResponse {
+  message File {
+    uint32 index = 1;
+    string ipv4_addr = 2;
+    string name = 3;
+    google.protobuf.Timestamp create_time = 4;  // = mod_time
+    uint64 size = 5;
+    string thumbnail = 6;
+    string preview = 7; // = lightweight
+    //
+    string scene_name = 8;
+    string subject_id = 9;
+    string tag = 10;
+    //
+    bool has_frame_drops = 11;
+    bool has_unstable_sync_frames = 12;
+    //
+    bool protected = 13;  // dummy
+  }
+  message KeyFileGroup {
+    string key = 1;
+    repeated File files = 2;
+  }
+
+  bool success = 1;
+  repeated KeyFileGroup groups = 2;
+}
+
+message RemoveRecordedKeyFileGroupRequest {
+  repeated string ipv4_addrs = 1;
+  string key = 2;
+}
+
+message RemoveRecordedKeyFileGroupResponse {
+  bool success = 1;
+}
+
+message RemoveRecordedKeyFileGroupsRequest {
+  repeated string ipv4_addrs = 1;
+  repeated string keys = 2;
+}
+
+message RemoveRecordedKeyFileGroupsResponse {
+  bool success = 1;
+}
+
+message RemoveRecordedKeyFileGroupsAllRequest {
+  repeated string ipv4_addrs = 1;
+}
+
+message RemoveRecordedKeyFileGroupsAllResponse {
+  bool success = 1;
+}
+
+
+// ##########################
+// Messaging
+// ##########################
+
+enum MessageType {
+  MESSAGE_TYPE_UNSPECIFIED = 0;
+  MESSAGE_TYPE_EMERGENCY = 1;
+  MESSAGE_TYPE_ALERT = 2;
+  MESSAGE_TYPE_CRITICAL = 3;
+  MESSAGE_TYPE_ERROR = 4;
+  MESSAGE_TYPE_SUCCESS = 5;
+  MESSAGE_TYPE_WARNING = 6;
+  MESSAGE_TYPE_NOTICE = 7;
+  MESSAGE_TYPE_INFO = 8;
+  MESSAGE_TYPE_DEBUG = 9;
+}
+
+message BroadcastMessageRequest {
+  MessageType type = 1;
+  string header = 2;
+  string data = 3;
+}
+
+message BroadcastMessageResponse {
+  bool success = 1;
+}
+
+message SubscribeMessageRequest {
+  //
+}
+
+message SubscribeMessageResponse {
+  MessageType type = 1;
+  string header = 2;
+  string data = 3;
+}
+
+enum EventType {
+  EVENT_TYPE_UNSPECIFIED = 0;
+  EVENT_TYPE_CUSTOM_EVENT = 1;
+  EVENT_TYPE_RECORD_SCENE_NAME_CHANGED = 2;
+  EVENT_TYPE_RECORD_SUBJECT_ID_CHANGED = 3;
+  EVENT_TYPE_RECORD_TAGS_CHANGED = 4;
+  EVENT_TYPE_APP_ACCOUNT_SETTINGS_UPDATED = 5;
+  EVENT_TYPE_RECORDING_STARTED = 6;
+  EVENT_TYPE_RECORDING_STOPPED = 7;
+  EVENT_TYPE_DEVICE_CONFIGURATION_MULTIPLE_LEADERS_DETECTED = 8;
+  EVENT_TYPE_DEVICE_CONFIGURATION_NO_LEADERS_DETECTED = 9;
+  EVENT_TYPE_DEVICE_CONFIGURATION_CHANGED = 10;
+  EVENT_TYPE_DEVICE_CONFIGURATION_APPLY_STARTED = 11;
+  EVENT_TYPE_DEVICE_CONFIGURATION_APPLY_COMPLETED = 12;
+  EVENT_TYPE_SYSTEM_TIME_DRIFT = 13;
+}
+
+message BroadcastEventRequest {
+  EventType type = 1;
+  uint64 flags = 2;
+  string tag = 3;
+}
+
+message BroadcastEventResponse {
+  bool success = 1;
+}
+
+message SubscribeEventRequest {
+  //
+}
+
+message SubscribeEventResponse {
+  EventType type = 1;
+  uint64 flags = 2;
+  string tag = 3;
+}

@@ -1,0 +1,10 @@
+{
+  "AIREALカメラの操作アプリです。ユーザー名には「admin」と入力し、本アプリで設定したパスワードを 入力して、ログインボタンを押してください。": "This is the AIREAL camera control app. Please enter 'admin' as the username and input the password set within this app. Then, press the login button.",
+  "About": "About",
+  "Connect": "Connect",
+  "Contact": "Contact",
+  "Home": "Home",
+  "Version": "Version",
+  "greeting": "Hello, {{name}}!",
+  "internationalization": "internationalization"
+}

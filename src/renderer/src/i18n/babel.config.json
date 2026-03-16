@@ -1,0 +1,18 @@
+// i18n/babel.config.json
+{
+  "presets": ["@babel/preset-typescript", "@babel/preset-react"],
+  "plugins": [
+    [
+      "i18next-extract",
+      {
+        "locales": ["ja", "en", "ar"],
+        "outputPath": "./src/i18n/locales/{{locale}}.json",
+        "discardOldKeys": false,
+        //"discardOldKeys": true, // 未使用key項目自動削除
+        "keySeparator": null // defaultは'.'
+      }
+    ]
+  ]
+}
+
+
